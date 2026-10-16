@@ -1,0 +1,310 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VINCELS - Premium Wallpapers</title>
+    
+    <!-- Google Fonts: Orbitron for futuristic titles, Inter for clean UI text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#0F1219',
+                        surface: '#171B24',
+                        surfaceLight: '#212631',
+                        borderSubtle: '#2A2E39',
+                        neonCyan: '#00E5FF',
+                        neonBlue: '#2979FF',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Orbitron', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'neon': '0 0 15px rgba(0, 229, 255, 0.4)',
+                        'neon-blue': '0 0 20px rgba(41, 121, 255, 0.3)',
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles for aesthetics not easily done with base Tailwind utilities */
+        body {
+            background-color: #0F1219;
+            color: #FFFFFF;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+        }
+
+        /* Subtle grid background to enhance the futuristic look */
+        .bg-grid {
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* Glassmorphism utilities */
+        .glass {
+            background: rgba(23, 27, 36, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-badge {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        /* Hide scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0F1219; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2A2E39; 
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00E5FF; 
+        }
+
+        .text-glow {
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+    </style>
+</head>
+<body class="bg-grid min-h-screen antialiased selection:bg-neonCyan selection:text-black pb-6">
+
+    <!-- Top Navigation -->
+    <header class="fixed top-0 w-full z-50 glass border-b border-borderSubtle transition-all duration-300">
+        <div class="max-w-5xl mx-auto px-5 py-4 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="font-display font-bold text-2xl tracking-widest text-white flex items-center gap-1">
+                VINCELS
+                <div class="w-1.5 h-1.5 bg-neonCyan rounded-full mt-1 animate-pulse"></div>
+            </a>
+            
+            <!-- Actions -->
+            <div class="flex items-center gap-5 text-gray-300">
+                <button class="hover:text-neonCyan transition-colors">
+                    <i class="fa-solid fa-magnifying-glass text-lg"></i>
+                </button>
+                <button class="hover:text-neonCyan transition-colors">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto px-5 pt-24 space-y-6">
+
+        <!-- Featured Hero Section -->
+        <section class="relative w-full aspect-[4/3] sm:aspect-[21/9] rounded-3xl overflow-hidden shadow-neon-blue group">
+            <!-- Background Image -->
+            <img src="https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?q=80&w=1200&auto=format&fit=crop" 
+                 alt="Cyberpunk Neon Car" 
+                 class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+            
+            <!-- Gradient Overlay (Dark at bottom, transparent top) -->
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0F1219] via-black/50 to-transparent"></div>
+
+            <!-- Content -->
+            <div class="absolute inset-0 p-5 flex flex-col justify-end pb-8">
+                <div class="mb-4">
+                    <h1 class="font-display text-3xl sm:text-4xl font-bold text-white text-glow mb-1 uppercase tracking-wider">
+                        Neon Drive <span class="text-neonCyan text-sm sm:text-lg align-top">(LIVE)</span>
+                    </h1>
+                    <p class="text-gray-300 text-sm max-w-sm">4K Animated Cyberpunk Cityscape</p>
+                </div>
+                
+                <div class="flex flex-wrap items-center gap-3">
+                    <button class="flex items-center gap-2 bg-gradient-to-r from-neonBlue to-neonCyan text-black font-semibold px-5 py-2.5 rounded-xl shadow-neon hover:opacity-90 transition-all transform active:scale-95 text-sm sm:text-base">
+                        <i class="fa-solid fa-download"></i> DOWNLOAD FREE
+                    </button>
+                    <button class="glass text-white font-medium px-5 py-2.5 rounded-xl hover:bg-white/10 transition-all border border-borderSubtle text-sm sm:text-base">
+                        PREVIEW
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pagination Dots -->
+        <div class="flex justify-center gap-2 mt-2">
+            <div class="w-8 h-1 bg-neonCyan rounded-full"></div>
+            <div class="w-3 h-1 bg-borderSubtle rounded-full cursor-pointer hover:bg-gray-500 transition-colors"></div>
+            <div class="w-3 h-1 bg-borderSubtle rounded-full cursor-pointer hover:bg-gray-500 transition-colors"></div>
+        </div>
+
+        <!-- Sponsored Banner -->
+        <a href="#" class="block w-full glass rounded-2xl overflow-hidden border border-borderSubtle hover:border-gray-500 transition-colors group relative">
+            <div class="absolute right-0 top-0 w-1/2 h-full bg-gradient-to-l from-black/80 to-transparent z-10 pointer-events-none"></div>
+            <div class="flex items-center justify-between p-1 pl-5">
+                <div class="flex flex-col">
+                    <span class="text-[10px] uppercase tracking-widest text-gray-400 font-semibold mb-1">Sponsored</span>
+                    <span class="font-display font-bold text-white text-sm sm:text-lg tracking-wide group-hover:text-neonCyan transition-colors">GAMESIR CONTROLLERS</span>
+                </div>
+                <div class="relative w-32 h-20 sm:w-48 sm:h-28 flex-shrink-0 z-0">
+                    <img src="https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?q=80&w=400&auto=format&fit=crop" 
+                         alt="Controller" 
+                         class="w-full h-full object-cover object-center rounded-r-xl mix-blend-lighten opacity-80" loading="lazy">
+                </div>
+            </div>
+        </a>
+
+        <!-- Popular Wallpapers Grid -->
+        <section class="pt-4">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="font-display text-lg sm:text-xl font-bold text-white tracking-wide">POPULAR WALLPAPERS</h2>
+                <a href="#" class="text-xs text-gray-400 hover:text-neonCyan transition-colors">SEE ALL</a>
+            </div>
+
+            <!-- Grid container: 2 cols on mobile, 3 on tablet, 4 on desktop -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                
+                <!-- Card 1 -->
+                <article class="bg-surface rounded-2xl overflow-hidden border border-borderSubtle flex flex-col group relative">
+                    <div class="relative aspect-square overflow-hidden bg-black">
+                        <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=600&auto=format&fit=crop" alt="Cyber Girl" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-2 right-2 glass-badge px-2 py-0.5 rounded text-[10px] font-bold text-white tracking-wider z-10">4K</div>
+                        <!-- Inner overlay gradient -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#171B24] via-transparent to-transparent opacity-80"></div>
+                    </div>
+                    <button class="w-full py-3 flex items-center justify-center gap-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-surfaceLight transition-colors">
+                        <i class="fa-solid fa-arrow-down text-xs"></i> DOWNLOAD
+                    </button>
+                </article>
+
+                <!-- Card 2 -->
+                <article class="bg-surface rounded-2xl overflow-hidden border border-borderSubtle flex flex-col group relative">
+                    <div class="relative aspect-square overflow-hidden bg-black">
+                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop" alt="Abstract 3D Shape" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-2 right-2 glass-badge px-2 py-0.5 rounded text-[10px] font-bold text-neonCyan tracking-wider z-10 border-neonCyan/30">LIVE</div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#171B24] via-transparent to-transparent opacity-80"></div>
+                    </div>
+                    <button class="w-full py-3 flex items-center justify-center gap-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-surfaceLight transition-colors">
+                        <i class="fa-solid fa-arrow-down text-xs"></i> DOWNLOAD
+                    </button>
+                </article>
+
+                <!-- Card 3 -->
+                <article class="bg-surface rounded-2xl overflow-hidden border border-borderSubtle flex flex-col group relative">
+                    <div class="relative aspect-square overflow-hidden bg-black">
+                        <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=600&auto=format&fit=crop" alt="Sci-fi Landscape" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-2 right-2 glass-badge px-2 py-0.5 rounded text-[10px] font-bold text-neonCyan tracking-wider z-10 border-neonCyan/30">LIVE</div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#171B24] via-transparent to-transparent opacity-80"></div>
+                    </div>
+                    <button class="w-full py-3 flex items-center justify-center gap-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-surfaceLight transition-colors">
+                        <i class="fa-solid fa-arrow-down text-xs"></i> DOWNLOAD
+                    </button>
+                </article>
+
+                <!-- Card 4 -->
+                <article class="bg-surface rounded-2xl overflow-hidden border border-borderSubtle flex flex-col group relative">
+                    <div class="relative aspect-square overflow-hidden bg-black">
+                        <img src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=600&auto=format&fit=crop" alt="Abstract Crystal" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-2 right-2 glass-badge px-2 py-0.5 rounded text-[10px] font-bold text-white tracking-wider z-10">4K</div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#171B24] via-transparent to-transparent opacity-80"></div>
+                    </div>
+                    <button class="w-full py-3 flex items-center justify-center gap-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-surfaceLight transition-colors">
+                        <i class="fa-solid fa-arrow-down text-xs"></i> DOWNLOAD
+                    </button>
+                </article>
+                
+                <!-- Card 5 -->
+                <article class="bg-surface rounded-2xl overflow-hidden border border-borderSubtle flex flex-col group relative">
+                    <div class="relative aspect-square overflow-hidden bg-black">
+                        <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=600&auto=format&fit=crop" alt="Space Planet" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-2 right-2 glass-badge px-2 py-0.5 rounded text-[10px] font-bold text-neonCyan tracking-wider z-10 border-neonCyan/30">LIVE</div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#171B24] via-transparent to-transparent opacity-80"></div>
+                    </div>
+                    <button class="w-full py-3 flex items-center justify-center gap-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-surfaceLight transition-colors">
+                        <i class="fa-solid fa-arrow-down text-xs"></i> DOWNLOAD
+                    </button>
+                </article>
+
+                <!-- Card 6 -->
+                <article class="bg-surface rounded-2xl overflow-hidden border border-borderSubtle flex flex-col group relative">
+                    <div class="relative aspect-square overflow-hidden bg-black">
+                        <img src="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=600&auto=format&fit=crop" alt="Fluid Abstract" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-2 right-2 glass-badge px-2 py-0.5 rounded text-[10px] font-bold text-white tracking-wider z-10">4K</div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#171B24] via-transparent to-transparent opacity-80"></div>
+                    </div>
+                    <button class="w-full py-3 flex items-center justify-center gap-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-surfaceLight transition-colors">
+                        <i class="fa-solid fa-arrow-down text-xs"></i> DOWNLOAD
+                    </button>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- Bottom Ad Space -->
+        <section class="mt-8 mb-6 border border-borderSubtle border-dashed rounded-xl bg-surface/50 p-4 flex flex-col items-center justify-center min-h-[100px] text-gray-500 relative overflow-hidden">
+             <!-- Fake ad aesthetic -->
+             <div class="absolute left-0 top-0 w-1 h-full bg-borderSubtle"></div>
+             <span class="text-xs uppercase tracking-[0.2em] font-medium mb-1">Advertisement</span>
+             <span class="text-sm">Space reserved for AdSense / Adsterra banner</span>
+        </section>
+
+    </main>
+
+    <script>
+        // Simulación sencilla de interacciones
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // Prevenir que el clic navegue si está en un tag <a>
+                if(btn.innerText.includes('DOWNLOAD')) {
+                    // Aquí iría la lógica real de redirección al archivo
+                    console.log("Iniciando descarga o reproduciendo preview...");
+                    
+                    // Efecto visual de clic (animación suave)
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> PREPARING...';
+                    btn.classList.add('opacity-75');
+                    
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.classList.remove('opacity-75');
+                    }, 1500);
+                }
+            });
+        });
+
+        // Cambio de apariencia del header al hacer scroll
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                header.classList.add('shadow-lg', 'shadow-black/50');
+            } else {
+                header.classList.remove('shadow-lg', 'shadow-black/50');
+            }
+        });
+    </script>
+</body>
+</html>
+```
