@@ -1,6 +1,15 @@
 {
   "wallpapers": [
     {
+      "id": "mvcixhj4",
+      "title": "Templo de Kamisama",
+      "category": "Anime",
+      "quality": "4K",
+      "description": "Bu se enojo",
+      "image": "assets/wallpapers/mvcixhj4-templo-de-kamisama.jpg",
+      "thumb": "assets/wallpapers/mvcixhj4-templo-de-kamisama-thumb.jpg"
+    },
+    {
       "id": "mvcispzo",
       "title": "Radiador Springs",
       "category": "Naturaleza",
