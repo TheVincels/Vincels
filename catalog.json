@@ -1,6 +1,15 @@
 {
   "wallpapers": [
     {
+      "id": "mvchp2ya",
+      "title": "Palacio de Jade",
+      "category": "Naturaleza",
+      "quality": "4K",
+      "description": "Palacio de Jade, Kung Fu Panda",
+      "image": "assets/wallpapers/mvchp2ya-palacio-de-jade.jpg",
+      "thumb": "assets/wallpapers/mvchp2ya-palacio-de-jade-thumb.jpg"
+    },
+    {
       "id": "mvcfxurb",
       "title": "Mañana traquila",
       "category": "Anime",
