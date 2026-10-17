@@ -1,6 +1,15 @@
 {
   "wallpapers": [
     {
+      "id": "mvcjgc37",
+      "title": "Itachi",
+      "category": "Cyberpunk",
+      "quality": "4K",
+      "description": "",
+      "image": "assets/wallpapers/mvcjgc37-itachi.jpg",
+      "thumb": "assets/wallpapers/mvcjgc37-itachi-thumb.jpg"
+    },
+    {
       "id": "mvcjem1t",
       "title": "Kakashi",
       "category": "Cyberpunk",
