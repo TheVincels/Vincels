@@ -1,6 +1,15 @@
 {
   "wallpapers": [
     {
+      "id": "mvcj167l",
+      "title": "Kakashi",
+      "category": "Anime",
+      "quality": "4K",
+      "description": "",
+      "image": "assets/wallpapers/mvcj167l-kakashi.jpg",
+      "thumb": "assets/wallpapers/mvcj167l-kakashi-thumb.jpg"
+    },
+    {
       "id": "mvcixhj4",
       "title": "Templo de Kamisama",
       "category": "Anime",
