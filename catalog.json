@@ -57,6 +57,13 @@
   ],
   "music": [
     {
+      "id": "mvchru7v",
+      "title": "Encuentro y eternidad",
+      "genre": "Concierto",
+      "audio": "assets/music/mvchru7v-encuentro-y-eternidad.mp3",
+      "cover": "assets/music/mvchru7v-encuentro-y-eternidad-cover.jpg"
+    },
+    {
       "id": "mvbvaj7b",
       "title": "El eterno romantico",
       "genre": "Saxofon",
