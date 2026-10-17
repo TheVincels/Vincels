@@ -1,310 +1,360 @@
-```html
-<!DOCTYPE html>
+html = r'''<!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VINCELS - Premium Wallpapers</title>
-    
-    <!-- Google Fonts: Orbitron for futuristic titles, Inter for clean UI text -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
-    
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Tailwind Configuration -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        background: '#0F1219',
-                        surface: '#171B24',
-                        surfaceLight: '#212631',
-                        borderSubtle: '#2A2E39',
-                        neonCyan: '#00E5FF',
-                        neonBlue: '#2979FF',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        display: ['Orbitron', 'sans-serif'],
-                    },
-                    boxShadow: {
-                        'neon': '0 0 15px rgba(0, 229, 255, 0.4)',
-                        'neon-blue': '0 0 20px rgba(41, 121, 255, 0.3)',
-                    },
-                    backgroundImage: {
-                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-                    }
-                }
-            }
-        }
-    </script>
-
-    <style>
-        /* Custom Styles for aesthetics not easily done with base Tailwind utilities */
-        body {
-            background-color: #0F1219;
-            color: #FFFFFF;
-            -webkit-tap-highlight-color: transparent;
-            overflow-x: hidden;
-        }
-
-        /* Subtle grid background to enhance the futuristic look */
-        .bg-grid {
-            background-image: 
-                linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
-        }
-
-        /* Glassmorphism utilities */
-        .glass {
-            background: rgba(23, 27, 36, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .glass-badge {
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-
-        /* Hide scrollbar for a cleaner look */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0F1219; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #2A2E39; 
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #00E5FF; 
-        }
-
-        .text-glow {
-            text-shadow: 0 0 10px rgba(255,255,255,0.5);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#050912">
+  <meta name="description" content="VINCELS: wallpapers verticales, música con IA y contenido digital.">
+  <title>VINCELS. — Tu mundo digital</title>
+  <style>
+    :root {
+      --bg: #050912; --panel: #0b1220; --panel2: #101a2a;
+      --cyan: #00d9ff; --purple: #a855f7; --text: #f4f8ff;
+      --muted: #a5b4c9; --line: rgba(95, 170, 220, .23);
+      --glow: 0 0 24px rgba(0,217,255,.16);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; color: var(--text); background:
+        radial-gradient(ellipse at 70% 0%, rgba(0,91,160,.16), transparent 35%),
+        linear-gradient(180deg, #050912, #070b15 60%, #03060c);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; }
+    .topbar {
+      position: sticky; top: 0; z-index: 20; display: flex; align-items: center;
+      justify-content: space-between; gap: 18px; padding: 15px clamp(16px, 4vw, 52px);
+      background: rgba(4,9,17,.88); backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--line);
+    }
+    .logo { font-size: clamp(1.35rem, 3vw, 1.8rem); font-weight: 850; letter-spacing: .11em; }
+    .logo span { color: var(--cyan); }
+    .nav-links { display: flex; gap: 9px; align-items: center; }
+    .nav-links a, .menu-panel a { padding: 10px 13px; border-radius: 999px; color: #d8e4f3; font-size: .9rem; }
+    .nav-links a:hover, .nav-links a.active { border: 1px solid var(--cyan); color: white; box-shadow: var(--glow); }
+    .menu-wrap { position: relative; }
+    .menu-button {
+      display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
+      color: white; border: 1px solid var(--line); background: #0b1422; font-size: 1.35rem;
+    }
+    .menu-panel {
+      display: none; position: absolute; right: 0; top: 54px; min-width: 190px; padding: 8px;
+      background: #0b1220; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 16px 45px #0009;
+    }
+    .menu-panel.open { display: grid; }
+    .menu-panel a { border-radius: 10px; }
+    .menu-panel a:hover { background: #122339; color: var(--cyan); }
+    .hero {
+      min-height: 390px; display: flex; align-items: center; padding: 58px clamp(20px, 6vw, 90px);
+      background: linear-gradient(90deg, rgba(3,8,16,.97) 0%, rgba(3,8,16,.72) 45%, rgba(3,8,16,.08) 100%),
+      url("https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1800&q=85") center 44%/cover;
+      border-bottom: 1px solid var(--line);
+    }
+    .hero-copy { max-width: 610px; }
+    .eyebrow { color: var(--cyan); text-transform: uppercase; letter-spacing: .32em; font-size: .78rem; font-weight: 700; }
+    h1 { font-size: clamp(2.5rem, 7vw, 5.1rem); line-height: .98; margin: 14px 0; letter-spacing: .035em; }
+    h1 span { color: var(--cyan); }
+    .hero p { color: #d0dbea; max-width: 480px; line-height: 1.65; }
+    .button {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 13px 20px; border-radius: 999px; color: white; font-weight: 750;
+      letter-spacing: .06em; text-transform: uppercase; font-size: .78rem;
+      background: linear-gradient(120deg, #007eb8, #00d9ff); border: 1px solid #55eaff;
+      box-shadow: 0 0 25px rgba(0,217,255,.2); transition: transform .2s, filter .2s;
+    }
+    .button:hover { transform: translateY(-2px); filter: brightness(1.12); }
+    .button.secondary { background: #101a29; border-color: var(--line); box-shadow: none; }
+    .category-strip {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px;
+      margin: 20px auto 0; width: min(1120px, calc(100% - 32px)); padding: 10px;
+      border: 1px solid var(--line); border-radius: 18px; background: rgba(7,14,25,.82);
+    }
+    .category-strip a { padding: 13px 5px; text-align: center; color: #c7d5e7; font-size: .86rem; border-radius: 12px; }
+    .category-strip a span { display: block; font-size: 1.3rem; margin-bottom: 6px; }
+    .category-strip a:hover { color: var(--cyan); background: #102035; }
+    main { width: min(1160px, calc(100% - 32px)); margin: 0 auto; }
+    .section { padding: 44px 0 12px; scroll-margin-top: 85px; }
+    .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 20px; }
+    .section-heading h2 { font-size: clamp(1.35rem, 4vw, 2rem); margin: 0 0 7px; letter-spacing: .035em; }
+    .section-heading p { margin: 0; color: var(--muted); font-size: .94rem; line-height: 1.5; }
+    .section-icon { color: var(--cyan); font-size: 1.9rem; margin-right: 12px; }
+    .heading-title { display: flex; align-items: center; }
+    .text-link { color: var(--cyan); font-size: .8rem; font-weight: 700; white-space: nowrap; }
+    /* Vertical wallpaper cards: two per row on mobile and desktop. */
+    .wallpaper-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .wallpaper-card {
+      min-width: 0; overflow: hidden; position: relative; border-radius: 18px;
+      background: var(--panel); border: 1px solid var(--line); box-shadow: 0 8px 28px #0002;
+      transition: transform .22s, border-color .22s;
+    }
+    .wallpaper-card:hover { transform: translateY(-4px); border-color: rgba(0,217,255,.7); }
+    .wallpaper-image-button { display: block; width: 100%; padding: 0; border: 0; background: #0b1220; position: relative; }
+    .wallpaper-image-button img { display: block; width: 100%; aspect-ratio: 9 / 16; object-fit: cover; }
+    .wallpaper-image-button::after { content: "VER WALLPAPER ↗"; position: absolute; inset: auto 0 0; padding: 30px 8px 12px; text-align: center; font-size: .68rem; font-weight: 800; letter-spacing: .08em; color: white; background: linear-gradient(transparent, #02050bd9); opacity: 0; transition: opacity .2s; }
+    .wallpaper-card:hover .wallpaper-image-button::after, .wallpaper-image-button:focus-visible::after { opacity: 1; }
+    .quality { position: absolute; top: 10px; left: 10px; padding: 5px 8px; background: #050912d9; border: 1px solid #48ddff; border-radius: 7px; font-size: .68rem; font-weight: 800; }
+    .card-info { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 11px; }
+    .card-info h3 { font-size: .87rem; margin: 0 0 4px; }
+    .card-info small { color: var(--muted); font-size: .7rem; }
+    .download-button {
+      flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      border: 1px solid rgba(0,217,255,.5); background: #0b2030; color: #eafaff;
+      border-radius: 999px; padding: 9px 10px; font-size: .7rem; font-weight: 800;
+    }
+    .download-button:hover { background: #063a50; }
+    .center { text-align: center; padding: 24px 0 8px; }
+    .music-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+    .music-card { overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); }
+    .music-art { position: relative; }
+    .music-art img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+    .play-button { position: absolute; left: 10px; bottom: 10px; width: 38px; height: 38px; border-radius: 50%; border: 1px solid #fff8; color: white; background: #06101cdd; }
+    .music-meta { padding: 11px; }
+    .music-meta strong { display: block; font-size: .85rem; }
+    .music-meta small { color: var(--muted); }
+    .music-note { margin-top: 14px; color: var(--muted); font-size: .85rem; line-height: 1.6; }
+    .sponsor {
+      display: flex; align-items: center; justify-content: center; gap: 18px; text-align: center;
+      margin: 36px 0 28px; padding: 25px 18px; border: 1px solid #11659a; border-radius: 18px;
+      background: linear-gradient(110deg, #0a1525, #0b1b30 55%, #080e1a); box-shadow: var(--glow);
+    }
+    .sponsor .handshake { font-size: 2rem; color: var(--cyan); }
+    .sponsor h3 { margin: 0 0 6px; letter-spacing: .08em; }
+    .sponsor p { margin: 0; color: #b8c7dc; font-size: .8rem; letter-spacing: .2em; }
+    footer { border-top: 1px solid var(--line); text-align: center; padding: 28px 16px 34px; color: var(--muted); font-size: .78rem; }
+    footer .logo { color: white; font-size: 1rem; margin-bottom: 12px; }
+    footer nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; margin: 12px 0; }
+    footer a:hover { color: var(--cyan); }
+    /* Preview modal */
+    .modal { display: none; position: fixed; z-index: 50; inset: 0; padding: 18px; background: rgba(0,0,0,.84); backdrop-filter: blur(12px); align-items: center; justify-content: center; }
+    .modal.open { display: flex; }
+    .modal-content { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(180px, .75fr); gap: 22px; align-items: center; width: min(820px, 100%); max-height: 92vh; padding: 18px; border: 1px solid var(--line); border-radius: 22px; background: #09111e; box-shadow: 0 20px 80px #000b; }
+    .modal-image-wrap { min-height: 0; text-align: center; }
+    .modal-image { max-height: 78vh; max-width: 100%; aspect-ratio: 9 / 16; object-fit: contain; border-radius: 12px; }
+    .modal-details h2 { margin-top: 0; }
+    .modal-details p { color: var(--muted); line-height: 1.6; font-size: .9rem; }
+    .close-modal { position: absolute; top: 9px; right: 10px; width: 38px; height: 38px; border: 1px solid var(--line); border-radius: 50%; background: #111d2b; color: white; font-size: 1.3rem; }
+    .modal-download { width: 100%; margin-top: 8px; }
+    @media (min-width: 900px) { .wallpaper-grid { gap: 20px; } .wallpaper-image-button img { max-height: 620px; } }
+    @media (max-width: 720px) {
+      .nav-links { display: none; } .hero { min-height: 350px; background-position: 60% center; }
+      .category-strip { grid-template-columns: repeat(5, minmax(0,1fr)); padding: 6px; }
+      .category-strip a { font-size: .7rem; padding: 10px 2px; } .category-strip a span { font-size: 1.1rem; }
+      .wallpaper-grid { gap: 10px; } .card-info { align-items: flex-start; padding: 9px; }
+      .card-info h3 { font-size: .76rem; } .card-info small { font-size: .64rem; }
+      .download-button { padding: 8px; font-size: .65rem; } .music-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .section { padding-top: 34px; } .section-heading { align-items: flex-start; }
+      .section-heading .button { padding: 10px 12px; font-size: .66rem; }
+      .modal-content { grid-template-columns: minmax(0, 1fr); overflow-y: auto; max-height: 94vh; width: min(460px,100%); gap: 12px; }
+      .modal-image { max-height: 57vh; } .modal-details { padding: 0 4px 6px; } .modal-details h2 { font-size: 1.15rem; margin-bottom: 6px; }
+      .modal-details p { margin: 6px 0; }
+    }
+    @media (max-width: 360px) {
+      .wallpaper-grid { gap: 7px; } .card-info { display: block; } .download-button { margin-top: 8px; width: 100%; }
+      .quality { top: 6px; left: 6px; font-size: .6rem; } .hero { padding-left: 17px; }
+    }
+  </style>
 </head>
-<body class="bg-grid min-h-screen antialiased selection:bg-neonCyan selection:text-black pb-6">
+<body>
+  <header class="topbar">
+    <a class="logo" href="#inicio" aria-label="Vincels inicio">VINCELS<span>.</span></a>
+    <nav class="nav-links" aria-label="Navegación principal">
+      <a class="active" href="#inicio">Inicio</a><a href="#fondos">Fondos</a><a href="#musica">Música IA</a><a href="#categorias">Categorías</a>
+    </nav>
+    <div class="menu-wrap">
+      <button class="menu-button" id="menuButton" aria-label="Abrir categorías" aria-expanded="false">☰</button>
+      <nav class="menu-panel" id="menuPanel" aria-label="Categorías">
+        <a href="#inicio">Inicio</a><a href="#fondos">Wallpapers</a><a href="#musica">Música con IA</a>
+        <a href="#categorias">Juegos</a><a href="#categorias">Móviles</a><a href="#patrocinadores">Patrocinadores</a>
+      </nav>
+    </div>
+  </header>
 
-    <!-- Top Navigation -->
-    <header class="fixed top-0 w-full z-50 glass border-b border-borderSubtle transition-all duration-300">
-        <div class="max-w-5xl mx-auto px-5 py-4 flex justify-between items-center">
-            <!-- Logo -->
-            <a href="#" class="font-display font-bold text-2xl tracking-widest text-white flex items-center gap-1">
-                VINCELS
-                <div class="w-1.5 h-1.5 bg-neonCyan rounded-full mt-1 animate-pulse"></div>
-            </a>
-            
-            <!-- Actions -->
-            <div class="flex items-center gap-5 text-gray-300">
-                <button class="hover:text-neonCyan transition-colors">
-                    <i class="fa-solid fa-magnifying-glass text-lg"></i>
-                </button>
-                <button class="hover:text-neonCyan transition-colors">
-                    <i class="fa-solid fa-bars text-xl"></i>
-                </button>
-            </div>
+  <section class="hero" id="inicio">
+    <div class="hero-copy">
+      <div class="eyebrow">Bienvenido a</div>
+      <h1>VINCELS<span>.</span></h1>
+      <p>Wallpapers verticales, música con inteligencia artificial y contenido digital para llevar tu pantalla a otro nivel.</p>
+      <a class="button" href="#fondos">⇩ &nbsp; Explora wallpapers</a>
+    </div>
+  </section>
+
+  <nav class="category-strip" id="categorias" aria-label="Explorar categorías">
+    <a href="#fondos"><span>▧</span>Fondos</a>
+    <a href="#musica"><span>♫</span>Música IA</a>
+    <a href="#categorias"><span>🎮</span>Juegos</a>
+    <a href="#categorias"><span>▯</span>Móviles</a>
+    <a href="#categorias"><span>▦</span>Otros</a>
+  </nav>
+
+  <main>
+    <section class="section" id="fondos">
+      <div class="section-heading">
+        <div>
+          <div class="heading-title"><span class="section-icon">▧</span><h2>WALLPAPERS</h2></div>
+          <p>Fondos verticales para móvil. Toca una imagen para verla en grande.</p>
         </div>
-    </header>
+        <a class="button secondary" href="#fondos">⇩ <span>Descargas</span></a>
+      </div>
 
-    <!-- Main Content -->
-    <main class="max-w-5xl mx-auto px-5 pt-24 space-y-6">
+      <div class="wallpaper-grid" id="wallpaperGrid">
+        <!-- Cambia cada objeto del arreglo WALLPAPERS en el script para añadir tus propios fondos. -->
+      </div>
+      <div class="center"><button class="button secondary" id="showMore">Ver más wallpapers &nbsp; →</button></div>
+    </section>
 
-        <!-- Featured Hero Section -->
-        <section class="relative w-full aspect-[4/3] sm:aspect-[21/9] rounded-3xl overflow-hidden shadow-neon-blue group">
-            <!-- Background Image -->
-            <img src="https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?q=80&w=1200&auto=format&fit=crop" 
-                 alt="Cyberpunk Neon Car" 
-                 class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
-            
-            <!-- Gradient Overlay (Dark at bottom, transparent top) -->
-            <div class="absolute inset-0 bg-gradient-to-t from-[#0F1219] via-black/50 to-transparent"></div>
-
-            <!-- Content -->
-            <div class="absolute inset-0 p-5 flex flex-col justify-end pb-8">
-                <div class="mb-4">
-                    <h1 class="font-display text-3xl sm:text-4xl font-bold text-white text-glow mb-1 uppercase tracking-wider">
-                        Neon Drive <span class="text-neonCyan text-sm sm:text-lg align-top">(LIVE)</span>
-                    </h1>
-                    <p class="text-gray-300 text-sm max-w-sm">4K Animated Cyberpunk Cityscape</p>
-                </div>
-                
-                <div class="flex flex-wrap items-center gap-3">
-                    <button class="flex items-center gap-2 bg-gradient-to-r from-neonBlue to-neonCyan text-black font-semibold px-5 py-2.5 rounded-xl shadow-neon hover:opacity-90 transition-all transform active:scale-95 text-sm sm:text-base">
-                        <i class="fa-solid fa-download"></i> DOWNLOAD FREE
-                    </button>
-                    <button class="glass text-white font-medium px-5 py-2.5 rounded-xl hover:bg-white/10 transition-all border border-borderSubtle text-sm sm:text-base">
-                        PREVIEW
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Pagination Dots -->
-        <div class="flex justify-center gap-2 mt-2">
-            <div class="w-8 h-1 bg-neonCyan rounded-full"></div>
-            <div class="w-3 h-1 bg-borderSubtle rounded-full cursor-pointer hover:bg-gray-500 transition-colors"></div>
-            <div class="w-3 h-1 bg-borderSubtle rounded-full cursor-pointer hover:bg-gray-500 transition-colors"></div>
+    <section class="section" id="musica">
+      <div class="section-heading">
+        <div>
+          <div class="heading-title"><span class="section-icon">♫</span><h2>MÚSICA CON IA</h2></div>
+          <p>Paisajes sonoros creados con inteligencia artificial.</p>
         </div>
+        <a class="button secondary" href="#musica">▶ Explorar música</a>
+      </div>
+      <div class="music-grid" id="musicGrid"></div>
+      <p class="music-note">Aquí puedes publicar tus pistas generadas con IA. Cuando tengas los archivos de audio, agrega su URL en la propiedad <code>audio</code> de cada pista y aparecerá el reproductor.</p>
+    </section>
 
-        <!-- Sponsored Banner -->
-        <a href="#" class="block w-full glass rounded-2xl overflow-hidden border border-borderSubtle hover:border-gray-500 transition-colors group relative">
-            <div class="absolute right-0 top-0 w-1/2 h-full bg-gradient-to-l from-black/80 to-transparent z-10 pointer-events-none"></div>
-            <div class="flex items-center justify-between p-1 pl-5">
-                <div class="flex flex-col">
-                    <span class="text-[10px] uppercase tracking-widest text-gray-400 font-semibold mb-1">Sponsored</span>
-                    <span class="font-display font-bold text-white text-sm sm:text-lg tracking-wide group-hover:text-neonCyan transition-colors">GAMESIR CONTROLLERS</span>
-                </div>
-                <div class="relative w-32 h-20 sm:w-48 sm:h-28 flex-shrink-0 z-0">
-                    <img src="https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?q=80&w=400&auto=format&fit=crop" 
-                         alt="Controller" 
-                         class="w-full h-full object-cover object-center rounded-r-xl mix-blend-lighten opacity-80" loading="lazy">
-                </div>
-            </div>
-        </a>
+    <section class="sponsor" id="patrocinadores">
+      <div class="handshake">◇</div>
+      <div><h3>PRÓXIMAMENTE...</h3><p>NUESTROS PATROCINADORES</p></div>
+    </section>
+  </main>
 
-        <!-- Popular Wallpapers Grid -->
-        <section class="pt-4">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="font-display text-lg sm:text-xl font-bold text-white tracking-wide">POPULAR WALLPAPERS</h2>
-                <a href="#" class="text-xs text-gray-400 hover:text-neonCyan transition-colors">SEE ALL</a>
-            </div>
+  <footer>
+    <div class="logo">VINCELS<span style="color:var(--cyan)">.</span></div>
+    <nav><a href="#fondos">Fondos</a><a href="#musica">Música IA</a><a href="#categorias">Juegos</a><a href="#categorias">Móviles</a><a href="#patrocinadores">Otros</a></nav>
+    <p>Creado para los que buscan más · © <span id="year"></span> VINCELS.</p>
+  </footer>
 
-            <!-- Grid container: 2 cols on mobile, 3 on tablet, 4 on desktop -->
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                
-                <!-- Card 1 -->
-                <article class="bg-surface rounded-2xl overflow-hidden border border-borderSubtle flex flex-col group relative">
-                    <div class="relative aspect-square overflow-hidden bg-black">
-                        <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=600&auto=format&fit=crop" alt="Cyber Girl" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute top-2 right-2 glass-badge px-2 py-0.5 rounded text-[10px] font-bold text-white tracking-wider z-10">4K</div>
-                        <!-- Inner overlay gradient -->
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#171B24] via-transparent to-transparent opacity-80"></div>
-                    </div>
-                    <button class="w-full py-3 flex items-center justify-center gap-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-surfaceLight transition-colors">
-                        <i class="fa-solid fa-arrow-down text-xs"></i> DOWNLOAD
-                    </button>
-                </article>
+  <div class="modal" id="wallpaperModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-content">
+      <button class="close-modal" id="closeModal" aria-label="Cerrar vista previa">×</button>
+      <div class="modal-image-wrap"><img class="modal-image" id="modalImage" alt=""></div>
+      <div class="modal-details">
+        <div class="eyebrow">Vista previa</div>
+        <h2 id="modalTitle">Wallpaper</h2>
+        <p id="modalDescription">Fondo vertical para móvil.</p>
+        <p>Formato recomendado: <strong>9:16 vertical</strong>.</p>
+        <a class="button modal-download" id="modalDownload" href="#" download>⇩ Descargar wallpaper</a>
+      </div>
+    </div>
+  </div>
 
-                <!-- Card 2 -->
-                <article class="bg-surface rounded-2xl overflow-hidden border border-borderSubtle flex flex-col group relative">
-                    <div class="relative aspect-square overflow-hidden bg-black">
-                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop" alt="Abstract 3D Shape" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute top-2 right-2 glass-badge px-2 py-0.5 rounded text-[10px] font-bold text-neonCyan tracking-wider z-10 border-neonCyan/30">LIVE</div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#171B24] via-transparent to-transparent opacity-80"></div>
-                    </div>
-                    <button class="w-full py-3 flex items-center justify-center gap-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-surfaceLight transition-colors">
-                        <i class="fa-solid fa-arrow-down text-xs"></i> DOWNLOAD
-                    </button>
-                </article>
+  <script>
+    /*
+      PERSONALIZA TU CATÁLOGO:
+      - image: URL de la imagen vertical (ideal 1080 × 1920 o superior).
+      - download: URL del archivo que quieres entregar al usuario.
+      Si download queda vacío, se descargará la imagen mostrada en image.
+    */
+    const WALLPAPERS = [
+      { title: "Cumbres al anochecer", quality: "4K", image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&h=1600&q=90", description: "Montañas épicas bajo un cielo cinematográfico." },
+      { title: "Neón nocturno", quality: "4K", image: "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=900&h=1600&q=90", description: "Una atmósfera nocturna de alto contraste." },
+      { title: "Planeta distante", quality: "4K", image: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=900&h=1600&q=90", description: "El universo como fondo para tu móvil." },
+      { title: "Lago estelar", quality: "4K", image: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=900&h=1600&q=90", description: "Naturaleza y cielo reflejados en el agua." },
+      { title: "Ola cósmica", quality: "HD", image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&h=1600&q=90", description: "Colores intensos para una pantalla diferente." },
+      { title: "Bosque profundo", quality: "4K", image: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=900&h=1600&q=90", description: "Un bosque envuelto en misterio." },
+      { title: "Cielo de otro mundo", quality: "4K", image: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=900&h=1600&q=90", description: "Nebulosas y estrellas para tu teléfono." },
+      { title: "Luz en la oscuridad", quality: "HD", image: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=900&h=1600&q=90", description: "Una composición de tonos profundos." }
+    ];
 
-                <!-- Card 3 -->
-                <article class="bg-surface rounded-2xl overflow-hidden border border-borderSubtle flex flex-col group relative">
-                    <div class="relative aspect-square overflow-hidden bg-black">
-                        <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=600&auto=format&fit=crop" alt="Sci-fi Landscape" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute top-2 right-2 glass-badge px-2 py-0.5 rounded text-[10px] font-bold text-neonCyan tracking-wider z-10 border-neonCyan/30">LIVE</div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#171B24] via-transparent to-transparent opacity-80"></div>
-                    </div>
-                    <button class="w-full py-3 flex items-center justify-center gap-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-surfaceLight transition-colors">
-                        <i class="fa-solid fa-arrow-down text-xs"></i> DOWNLOAD
-                    </button>
-                </article>
+    const MUSIC = [
+      { title: "Épica sin límites", genre: "Cinemática", image: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=500&h=500&q=85", audio: "" },
+      { title: "Neon Mind", genre: "Electrónica", image: "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=500&h=500&q=85", audio: "" },
+      { title: "Calma interior", genre: "Ambiental", image: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=500&h=500&q=85", audio: "" },
+      { title: "Fuerza mental", genre: "Rock / Motivación", image: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=500&h=500&q=85", audio: "" }
+    ];
 
-                <!-- Card 4 -->
-                <article class="bg-surface rounded-2xl overflow-hidden border border-borderSubtle flex flex-col group relative">
-                    <div class="relative aspect-square overflow-hidden bg-black">
-                        <img src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=600&auto=format&fit=crop" alt="Abstract Crystal" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute top-2 right-2 glass-badge px-2 py-0.5 rounded text-[10px] font-bold text-white tracking-wider z-10">4K</div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#171B24] via-transparent to-transparent opacity-80"></div>
-                    </div>
-                    <button class="w-full py-3 flex items-center justify-center gap-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-surfaceLight transition-colors">
-                        <i class="fa-solid fa-arrow-down text-xs"></i> DOWNLOAD
-                    </button>
-                </article>
-                
-                <!-- Card 5 -->
-                <article class="bg-surface rounded-2xl overflow-hidden border border-borderSubtle flex flex-col group relative">
-                    <div class="relative aspect-square overflow-hidden bg-black">
-                        <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=600&auto=format&fit=crop" alt="Space Planet" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute top-2 right-2 glass-badge px-2 py-0.5 rounded text-[10px] font-bold text-neonCyan tracking-wider z-10 border-neonCyan/30">LIVE</div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#171B24] via-transparent to-transparent opacity-80"></div>
-                    </div>
-                    <button class="w-full py-3 flex items-center justify-center gap-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-surfaceLight transition-colors">
-                        <i class="fa-solid fa-arrow-down text-xs"></i> DOWNLOAD
-                    </button>
-                </article>
+    const wallpaperGrid = document.getElementById("wallpaperGrid");
+    const modal = document.getElementById("wallpaperModal");
+    let visibleCount = 6;
 
-                <!-- Card 6 -->
-                <article class="bg-surface rounded-2xl overflow-hidden border border-borderSubtle flex flex-col group relative">
-                    <div class="relative aspect-square overflow-hidden bg-black">
-                        <img src="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=600&auto=format&fit=crop" alt="Fluid Abstract" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute top-2 right-2 glass-badge px-2 py-0.5 rounded text-[10px] font-bold text-white tracking-wider z-10">4K</div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#171B24] via-transparent to-transparent opacity-80"></div>
-                    </div>
-                    <button class="w-full py-3 flex items-center justify-center gap-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-surfaceLight transition-colors">
-                        <i class="fa-solid fa-arrow-down text-xs"></i> DOWNLOAD
-                    </button>
-                </article>
-
-            </div>
-        </section>
-
-        <!-- Bottom Ad Space -->
-        <section class="mt-8 mb-6 border border-borderSubtle border-dashed rounded-xl bg-surface/50 p-4 flex flex-col items-center justify-center min-h-[100px] text-gray-500 relative overflow-hidden">
-             <!-- Fake ad aesthetic -->
-             <div class="absolute left-0 top-0 w-1 h-full bg-borderSubtle"></div>
-             <span class="text-xs uppercase tracking-[0.2em] font-medium mb-1">Advertisement</span>
-             <span class="text-sm">Space reserved for AdSense / Adsterra banner</span>
-        </section>
-
-    </main>
-
-    <script>
-        // Simulación sencilla de interacciones
-        document.querySelectorAll('button').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                // Prevenir que el clic navegue si está en un tag <a>
-                if(btn.innerText.includes('DOWNLOAD')) {
-                    // Aquí iría la lógica real de redirección al archivo
-                    console.log("Iniciando descarga o reproduciendo preview...");
-                    
-                    // Efecto visual de clic (animación suave)
-                    const originalText = btn.innerHTML;
-                    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> PREPARING...';
-                    btn.classList.add('opacity-75');
-                    
-                    setTimeout(() => {
-                        btn.innerHTML = originalText;
-                        btn.classList.remove('opacity-75');
-                    }, 1500);
-                }
-            });
+    function renderWallpapers() {
+      wallpaperGrid.innerHTML = "";
+      WALLPAPERS.slice(0, visibleCount).forEach((wallpaper, index) => {
+        const card = document.createElement("article");
+        card.className = "wallpaper-card";
+        card.innerHTML = `
+          <button class="wallpaper-image-button" type="button" aria-label="Ver ${wallpaper.title}">
+            <img src="${wallpaper.image}" alt="${wallpaper.title}" loading="lazy">
+            <span class="quality">${wallpaper.quality}</span>
+          </button>
+          <div class="card-info">
+            <div><h3>${wallpaper.title}</h3><small>Fondo vertical · 9:16</small></div>
+            <button class="download-button" type="button" aria-label="Ver y descargar ${wallpaper.title}">⇩ Descargar</button>
+          </div>`;
+        card.querySelector("img").addEventListener("error", e => {
+          e.currentTarget.alt = "No se pudo cargar esta imagen. Revisa la URL del wallpaper.";
         });
+        card.querySelector(".wallpaper-image-button").addEventListener("click", () => openPreview(wallpaper));
+        card.querySelector(".download-button").addEventListener("click", () => openPreview(wallpaper));
+        wallpaperGrid.appendChild(card);
+      });
+      document.getElementById("showMore").style.display = visibleCount >= WALLPAPERS.length ? "none" : "inline-flex";
+    }
 
-        // Cambio de apariencia del header al hacer scroll
-        const header = document.querySelector('header');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 20) {
-                header.classList.add('shadow-lg', 'shadow-black/50');
-            } else {
-                header.classList.remove('shadow-lg', 'shadow-black/50');
-            }
+    function openPreview(wallpaper) {
+      document.getElementById("modalImage").src = wallpaper.image;
+      document.getElementById("modalImage").alt = wallpaper.title;
+      document.getElementById("modalTitle").textContent = wallpaper.title;
+      document.getElementById("modalDescription").textContent = wallpaper.description || "Fondo vertical para móvil.";
+      const link = document.getElementById("modalDownload");
+      link.href = wallpaper.download || wallpaper.image;
+      link.setAttribute("download", (wallpaper.title || "vincels-wallpaper").toLowerCase().replace(/[^a-z0-9]+/g, "-") + ".jpg");
+      modal.classList.add("open");
+      document.body.style.overflow = "hidden";
+      document.getElementById("closeModal").focus();
+    }
+    function closePreview() { modal.classList.remove("open"); document.body.style.overflow = ""; }
+
+    document.getElementById("showMore").addEventListener("click", () => {
+      visibleCount = Math.min(visibleCount + 4, WALLPAPERS.length);
+      renderWallpapers();
+    });
+    document.getElementById("closeModal").addEventListener("click", closePreview);
+    modal.addEventListener("click", e => { if (e.target === modal) closePreview(); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") closePreview(); });
+
+    document.getElementById("menuButton").addEventListener("click", () => {
+      const panel = document.getElementById("menuPanel");
+      const isOpen = panel.classList.toggle("open");
+      document.getElementById("menuButton").setAttribute("aria-expanded", String(isOpen));
+    });
+    document.querySelectorAll("#menuPanel a").forEach(a => a.addEventListener("click", () => {
+      document.getElementById("menuPanel").classList.remove("open");
+      document.getElementById("menuButton").setAttribute("aria-expanded", "false");
+    }));
+
+    const musicGrid = document.getElementById("musicGrid");
+    MUSIC.forEach(track => {
+      const card = document.createElement("article");
+      card.className = "music-card";
+      card.innerHTML = `<div class="music-art"><img src="${track.image}" alt="" loading="lazy"><button class="play-button" type="button" aria-label="Reproducir ${track.title}">${track.audio ? "▶" : "♪"}</button></div><div class="music-meta"><strong>${track.title}</strong><small>${track.genre}</small></div>`;
+      const button = card.querySelector("button");
+      if (track.audio) {
+        const audio = new Audio(track.audio);
+        button.addEventListener("click", () => {
+          if (audio.paused) {
+            document.querySelectorAll("audio").forEach(a => { if (a !== audio) a.pause(); });
+            audio.play();
+            button.textContent = "Ⅱ";
+          } else { audio.pause(); button.textContent = "▶"; }
         });
-    </script>
+      } else {
+        button.title = "Añade una URL de audio en el arreglo MUSIC para activar esta pista";
+        button.addEventListener("click", () => alert("Esta pista es una tarjeta de muestra. Añade la URL de tu archivo de audio en la propiedad audio del arreglo MUSIC."));
+      }
+      musicGrid.appendChild(card);
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+    renderWallpapers();
+  </script>
 </body>
 </html>
-```
+'''
+path = Path("/mnt/data/vincels_web.html")
+path.write_text(html, encoding="utf-8")
+print(f"Archivo creado: {path} ({path.stat().st_size:,} bytes)")
