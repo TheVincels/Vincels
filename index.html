@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VINCELS - Live Wallpapers & 3D Art</title>
+    <title>VINCELS - Live Wallpapers & AI Music</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
@@ -14,7 +14,6 @@
         }
         .font-orbitron { font-family: 'Orbitron', sans-serif; }
         
-        /* Efecto Cristal (Glassmorphism) */
         .glass-nav {
             background: rgba(11, 14, 20, 0.8);
             backdrop-filter: blur(12px);
@@ -26,32 +25,84 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
         }
         
-        /* Brillos y Neón */
         .glow-text { text-shadow: 0 0 12px rgba(56, 189, 248, 0.6); }
         .neon-border { border: 1px solid rgba(56, 189, 248, 0.4); }
         .neon-border:hover { border-color: rgba(56, 189, 248, 0.8); background: rgba(56, 189, 248, 0.1); }
+
+        /* Ajuste para el reproductor nativo oscuro */
+        audio {
+            width: 100%;
+            height: 35px;
+            border-radius: 8px;
+            outline: none;
+        }
+        audio::-webkit-media-controls-panel {
+            background-color: #1e293b;
+        }
+        audio::-webkit-media-controls-current-time-display,
+        audio::-webkit-media-controls-time-remaining-display {
+            color: #94a3b8;
+        }
     </style>
 </head>
 <body class="antialiased min-h-screen pb-10">
 
     <!-- Barra de Navegación Superior -->
     <nav class="glass-nav fixed w-full top-0 z-50 px-5 py-4 flex justify-between items-center">
-        <div class="text-2xl font-orbitron font-bold tracking-widest text-white">VINCELS</div>
+        <!-- Agregamos el ID vincels-logo y quitamos la selección de texto para evitar que se sombree al tocar rápido -->
+        <div id="vincels-logo" class="text-2xl font-orbitron font-bold tracking-widest text-white cursor-pointer select-none">VINCELS</div>
         <div class="flex gap-4">
             <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
             <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
         </div>
     </nav>
 
-    <!-- Contenido Principal (Margen para que no quede debajo de la barra) -->
+    <!-- MODAL DE CONTRASEÑA (Oculto por defecto) -->
+    <div id="login-modal" class="hidden fixed inset-0 z-[60] bg-black/80 backdrop-blur-md justify-center items-center px-4">
+        <div class="card-glass p-6 rounded-2xl w-full max-w-sm text-center">
+            <h3 class="font-orbitron font-bold text-lg mb-4 text-blue-400">ADMIN ACCESS</h3>
+            <input type="password" id="admin-pass" placeholder="Ingresa el código" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 mb-4 text-white text-center tracking-[0.5em] focus:outline-none focus:border-blue-500">
+            <div class="flex gap-3">
+                <button id="cancel-login" class="flex-1 bg-gray-800 hover:bg-gray-700 text-white font-semibold py-3 rounded-xl transition">CANCELAR</button>
+                <button id="submit-login" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 rounded-xl transition">ENTRAR</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANEL DE ADMINISTRADOR (Oculto por defecto) -->
+    <section id="admin-panel" class="hidden pt-24 px-4 max-w-md mx-auto mb-8">
+        <div class="border border-green-500/30 bg-green-900/10 p-5 rounded-2xl">
+            <h2 class="font-orbitron text-green-400 font-bold mb-4 flex justify-between items-center">
+                PANEL DE CONTROL 
+                <span id="close-admin" class="text-xs bg-red-900/50 text-red-300 px-2 py-1 rounded cursor-pointer">Cerrar</span>
+            </h2>
+            
+            <!-- Agregar Música -->
+            <div class="mb-6 bg-black/40 p-3 rounded-xl">
+                <h3 class="text-xs font-bold text-gray-400 mb-2 uppercase">Subir Música IA</h3>
+                <input type="text" id="music-title" placeholder="Título de la pista (ej. Cyber Chill)" class="w-full bg-gray-800 text-xs rounded p-2 mb-2 border border-gray-700 text-white">
+                <input type="text" id="music-cover" placeholder="URL de la imagen de portada" class="w-full bg-gray-800 text-xs rounded p-2 mb-2 border border-gray-700 text-white">
+                <input type="text" id="music-audio" placeholder="URL del archivo de audio (.mp3)" class="w-full bg-gray-800 text-xs rounded p-2 mb-3 border border-gray-700 text-white">
+                <button id="add-music-btn" class="w-full bg-green-600 hover:bg-green-500 text-white text-xs font-bold py-2 rounded transition">PUBLICAR MÚSICA</button>
+            </div>
+
+            <!-- Agregar Wallpaper -->
+            <div class="bg-black/40 p-3 rounded-xl">
+                <h3 class="text-xs font-bold text-gray-400 mb-2 uppercase">Subir Wallpaper</h3>
+                <input type="text" id="wp-title" placeholder="Nombre (ej. Anime Lofi)" class="w-full bg-gray-800 text-xs rounded p-2 mb-2 border border-gray-700 text-white">
+                <input type="text" id="wp-img" placeholder="URL de la imagen o GIF" class="w-full bg-gray-800 text-xs rounded p-2 mb-3 border border-gray-700 text-white">
+                <button id="add-wp-btn" class="w-full bg-green-600 hover:bg-green-500 text-white text-xs font-bold py-2 rounded transition">PUBLICAR WALLPAPER</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contenido Principal -->
     <main class="pt-24 px-4 max-w-md mx-auto space-y-6">
 
-        <!-- Destacado Principal (Estilo Automotive / Cyberpunk) -->
+        <!-- Destacado Principal -->
         <section class="card-glass rounded-2xl overflow-hidden relative h-64 flex flex-col justify-end p-5">
-            <!-- Imagen de fondo provisional -->
             <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800&auto=format&fit=crop" alt="Neon Drive" class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay">
             <div class="absolute inset-0 bg-gradient-to-t from-[#0B0E14] via-transparent to-transparent"></div>
-            
             <div class="relative z-10">
                 <h2 class="text-2xl font-orbitron font-bold mb-3 glow-text text-white">NEON DRIVE (LIVE)</h2>
                 <div class="flex gap-3">
@@ -61,26 +112,39 @@
             </div>
         </section>
 
-        <!-- Banner de Afiliado (GameSir) -->
-        <a href="AQUI_PONDREMOS_TU_LINK_DE_AFILIADO" class="block">
-            <section class="card-glass rounded-2xl p-4 flex items-center justify-between transition hover:bg-slate-800/50">
-                <div>
-                    <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest block mb-1">SPONSORED</span>
-                    <h3 class="font-orbitron text-sm font-bold text-gray-200">GameSir Controllers</h3>
-                    <p class="text-blue-400 text-xs mt-1 font-semibold">Get 10% Off &rarr;</p>
+        <!-- SECCIÓN DE MÚSICA IA -->
+        <section>
+            <h3 class="font-orbitron text-sm font-bold text-gray-300 mb-3 tracking-wider mt-2 flex items-center gap-2">
+                <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
+                AI VIBES & SOUNDTRACKS
+            </h3>
+            
+            <!-- Contenedor dinámico para la música -->
+            <div id="music-container" class="space-y-3">
+                <!-- Track de ejemplo -->
+                <div class="card-glass p-3 rounded-2xl flex items-center gap-4">
+                    <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=150&auto=format&fit=crop" class="w-16 h-16 rounded-xl object-cover drop-shadow-md">
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-orbitron text-xs font-bold text-white truncate">Lofi Cyber City</h4>
+                        <p class="text-[10px] text-gray-400 mb-1">VINCELS AI AUDIO</p>
+                        <!-- Reproductor de audio nativo -->
+                        <audio controls class="w-full">
+                            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+                            Tu navegador no soporta el audio.
+                        </audio>
+                    </div>
                 </div>
-                <!-- Imagen provisional de un control -->
-                <img src="https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?q=80&w=200&auto=format&fit=crop" alt="GameSir Promo" class="w-20 h-20 object-contain rounded-xl drop-shadow-lg">
-            </section>
-        </a>
+            </div>
+        </section>
 
         <!-- Galería de Fondos Populares -->
         <section>
-            <h3 class="font-orbitron text-base font-bold text-gray-300 mb-4 tracking-wider mt-2">POPULAR WALLPAPERS</h3>
+            <h3 class="font-orbitron text-sm font-bold text-gray-300 mb-4 tracking-wider mt-2">POPULAR WALLPAPERS</h3>
             
-            <div class="grid grid-cols-2 gap-4">
+            <!-- Contenedor dinámico para los wallpapers -->
+            <div id="wallpapers-container" class="grid grid-cols-2 gap-4">
                 
-                <!-- Anime / Sci-Fi -->
+                <!-- Wallpaper de ejemplo -->
                 <div class="card-glass p-2.5 rounded-2xl flex flex-col">
                     <div class="relative rounded-xl overflow-hidden h-40 mb-3">
                         <span class="absolute top-2 right-2 bg-black/70 backdrop-blur-sm text-[9px] font-bold px-2 py-1 rounded border border-gray-600 z-10">4K</span>
@@ -92,7 +156,7 @@
                     </button>
                 </div>
 
-                <!-- 3D Abstract / Loop -->
+                <!-- Wallpaper de ejemplo 2 -->
                 <div class="card-glass p-2.5 rounded-2xl flex flex-col">
                     <div class="relative rounded-xl overflow-hidden h-40 mb-3">
                         <span class="absolute top-2 right-2 bg-blue-900/80 backdrop-blur-sm text-blue-200 text-[9px] font-bold px-2 py-1 rounded border border-blue-500 z-10 glow-text">LIVE</span>
@@ -103,23 +167,127 @@
                         DOWNLOAD
                     </button>
                 </div>
+            </div>
+        </section>
 
-                <!-- Paisaje / Lofi -->
+    </main>
+
+    <!-- Scripts para la lógica del Easter Egg y el Panel -->
+    <script>
+        // Lógica del Easter Egg (5 toques)
+        const logo = document.getElementById('vincels-logo');
+        const loginModal = document.getElementById('login-modal');
+        const adminPass = document.getElementById('admin-pass');
+        
+        let clickCount = 0;
+        let clickTimer;
+
+        logo.addEventListener('click', () => {
+            clickCount++;
+            
+            // Limpia el temporizador anterior
+            clearTimeout(clickTimer);
+            
+            // Si llega a 5 toques, muestra el modal
+            if (clickCount === 5) {
+                loginModal.classList.remove('hidden');
+                loginModal.classList.add('flex');
+                clickCount = 0; // Reinicia el contador
+            }
+
+            // Si pasa 1 segundo sin tocar, reinicia el contador (para que tengan que ser rápidos)
+            clickTimer = setTimeout(() => {
+                clickCount = 0;
+            }, 1000);
+        });
+
+        // Lógica de Login
+        document.getElementById('cancel-login').addEventListener('click', () => {
+            loginModal.classList.add('hidden');
+            loginModal.classList.remove('flex');
+            adminPass.value = '';
+        });
+
+        document.getElementById('submit-login').addEventListener('click', () => {
+            if (adminPass.value === '2549') {
+                loginModal.classList.add('hidden');
+                loginModal.classList.remove('flex');
+                
+                // Ocultar margen superior del main y mostrar panel
+                document.querySelector('main').classList.remove('pt-24');
+                document.querySelector('main').classList.add('pt-4');
+                document.getElementById('admin-panel').classList.remove('hidden');
+                adminPass.value = '';
+            } else {
+                alert('Contraseña incorrecta. Acceso denegado.');
+                adminPass.value = '';
+            }
+        });
+
+        // Cerrar Panel Admin
+        document.getElementById('close-admin').addEventListener('click', () => {
+            document.getElementById('admin-panel').classList.add('hidden');
+            document.querySelector('main').classList.remove('pt-4');
+            document.querySelector('main').classList.add('pt-24');
+        });
+
+        // Lógica para Agregar Música dinámicamente
+        document.getElementById('add-music-btn').addEventListener('click', () => {
+            const title = document.getElementById('music-title').value;
+            const cover = document.getElementById('music-cover').value;
+            const audioUrl = document.getElementById('music-audio').value;
+
+            if(!title || !cover || !audioUrl) { alert("Llena todos los campos de música"); return; }
+
+            const newMusicHTML = `
+                <div class="card-glass p-3 rounded-2xl flex items-center gap-4 mt-3">
+                    <img src="${cover}" class="w-16 h-16 rounded-xl object-cover drop-shadow-md">
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-orbitron text-xs font-bold text-white truncate">${title}</h4>
+                        <p class="text-[10px] text-gray-400 mb-1">VINCELS AI AUDIO</p>
+                        <audio controls class="w-full">
+                            <source src="${audioUrl}" type="audio/mpeg">
+                        </audio>
+                    </div>
+                </div>
+            `;
+            
+            // Insertar al principio de la lista
+            document.getElementById('music-container').insertAdjacentHTML('afterbegin', newMusicHTML);
+            
+            // Limpiar campos
+            document.getElementById('music-title').value = '';
+            document.getElementById('music-cover').value = '';
+            document.getElementById('music-audio').value = '';
+        });
+
+        // Lógica para Agregar Wallpapers dinámicamente
+        document.getElementById('add-wp-btn').addEventListener('click', () => {
+            const title = document.getElementById('wp-title').value;
+            const img = document.getElementById('wp-img').value;
+
+            if(!title || !img) { alert("Llena todos los campos del wallpaper"); return; }
+
+            const newWpHTML = `
                 <div class="card-glass p-2.5 rounded-2xl flex flex-col">
                     <div class="relative rounded-xl overflow-hidden h-40 mb-3">
-                        <span class="absolute top-2 right-2 bg-blue-900/80 backdrop-blur-sm text-blue-200 text-[9px] font-bold px-2 py-1 rounded border border-blue-500 z-10 glow-text">LIVE</span>
-                        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover transition-transform hover:scale-110">
+                        <span class="absolute top-2 right-2 bg-blue-900/80 backdrop-blur-sm text-blue-200 text-[9px] font-bold px-2 py-1 rounded border border-blue-500 z-10 glow-text">NEW</span>
+                        <img src="${img}" alt="${title}" class="w-full h-full object-cover transition-transform hover:scale-110">
                     </div>
                     <button class="bg-gray-800/80 hover:bg-gray-700 text-[11px] font-semibold py-2.5 rounded-xl text-gray-300 w-full mt-auto flex justify-center items-center gap-2 border border-gray-700">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                         DOWNLOAD
                     </button>
                 </div>
+            `;
 
-                <!-- Space / Minimal -->
-                <div class="card-glass p-2.5 rounded-2xl flex flex-col">
-                    <div class="relative rounded-xl overflow-hidden h-40 mb-3">
-                        <span class="absolute top-2 right-2 bg-black/70 backdrop-blur-sm text-[9px] font-bold px-2 py-1 rounded border border-gray-600 z-10">4K</span>
-                        <img src="https://images.unsplash.com/photo-1537420327992-d6e192287183?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover transition-transform hover:scale-110">
-                    </div>
-                    <button class="bg-gray-800/80 hover:bg-gray-700 text-[11px] font-
+            // Insertar al principio de la galería
+            document.getElementById('wallpapers-container').insertAdjacentHTML('afterbegin', newWpHTML);
+
+            // Limpiar campos
+            document.getElementById('wp-title').value = '';
+            document.getElementById('wp-img').value = '';
+        });
+    </script>
+</body>
+</html>
