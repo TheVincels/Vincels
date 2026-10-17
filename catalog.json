@@ -1,6 +1,15 @@
 {
   "wallpapers": [
     {
+      "id": "mvcjhsgv",
+      "title": "El cadáver de la novia",
+      "category": "Cyberpunk",
+      "quality": "4K",
+      "description": "",
+      "image": "assets/wallpapers/mvcjhsgv-el-cadaver-de-la-novia.jpg",
+      "thumb": "assets/wallpapers/mvcjhsgv-el-cadaver-de-la-novia-thumb.jpg"
+    },
+    {
       "id": "mvcjgc37",
       "title": "Itachi",
       "category": "Cyberpunk",
