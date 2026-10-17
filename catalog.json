@@ -1,6 +1,15 @@
 {
   "wallpapers": [
     {
+      "id": "mvcfumq3",
+      "title": "Visita inesperada",
+      "category": "Otros",
+      "quality": "4K",
+      "description": "Bob esponja y Patricio visitan a Arenita.",
+      "image": "assets/wallpapers/mvcfumq3-visita-inesperada.jpg",
+      "thumb": "assets/wallpapers/mvcfumq3-visita-inesperada-thumb.jpg"
+    },
+    {
       "id": "mvbv6d3j",
       "title": "Robo divertido",
       "category": "Otros",
