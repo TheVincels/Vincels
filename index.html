@@ -1,381 +1,49 @@
-src = Path("/mnt/data/vincels_web.html")
-html = src.read_text(encoding="utf-8")
-
-# Update brand logo elements so the repeated tap handler can detect them.
-html = html.replace('<a class="logo" href="#inicio" aria-label="Vincels inicio">VINCELS<span>.</span></a>',
-                    '<a class="logo admin-logo" href="#inicio" aria-label="Vincels inicio">VINCELS<span>.</span></a>')
-html = html.replace('<div class="logo">VINCELS<span style="color:var(--cyan)">.</span></div>',
-                    '<a class="logo admin-logo" href="#inicio" aria-label="Vincels inicio">VINCELS<span style="color:var(--cyan)">.</span></a>')
-
-# Add admin CSS before the media queries.
-css_insert = r'''
-    /* Admin local de demostración */
-    .admin-overlay { display:none; position:fixed; inset:0; z-index:80; padding:16px; overflow:auto;
-      background:rgba(2,5,12,.92); backdrop-filter:blur(14px); align-items:center; justify-content:center; }
-    .admin-overlay.open { display:flex; }
-    .admin-box { position:relative; width:min(760px,100%); max-height:94vh; overflow:auto; padding:22px;
-      background:#08111e; border:1px solid rgba(0,217,255,.4); border-radius:22px; box-shadow:0 20px 80px #000b; }
-    .admin-box h2 { margin:0 0 8px; }
-    .admin-box p { color:var(--muted); line-height:1.5; }
-    .admin-close { position:absolute; right:12px; top:12px; width:38px; height:38px; border:1px solid var(--line);
-      border-radius:50%; color:white; background:#111d2b; font-size:1.3rem; }
-    .admin-form { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin:18px 0; }
-    .admin-form label { display:grid; gap:6px; color:#c7d5e7; font-size:.82rem; }
-    .admin-form input, .admin-form select { min-width:0; width:100%; padding:11px; color:white; background:#101b2b;
-      border:1px solid var(--line); border-radius:10px; }
-    .admin-form input[type=file] { font-size:.75rem; }
-    .admin-tabs { display:flex; gap:8px; flex-wrap:wrap; margin:18px 0; }
-    .admin-tabs button { padding:10px 14px; color:white; border:1px solid var(--line); border-radius:999px; background:#101b2b; }
-    .admin-tabs button.active { border-color:var(--cyan); color:var(--cyan); }
-    .admin-notice { padding:11px 13px; border:1px solid var(--line); border-radius:12px; color:#c9d9ea; font-size:.82rem; line-height:1.5; }
-    .admin-list { display:grid; gap:8px; margin-top:14px; }
-    .admin-list-item { display:flex; align-items:center; gap:10px; padding:9px; border:1px solid var(--line); border-radius:12px; }
-    .admin-list-item img { width:42px; height:58px; object-fit:cover; border-radius:7px; }
-    .admin-list-item .admin-list-copy { flex:1; min-width:0; }
-    .admin-list-item strong { display:block; overflow-wrap:anywhere; font-size:.85rem; }
-    .admin-list-item small { color:var(--muted); }
-    .admin-list-item button { border:1px solid #85404b; background:#2b111a; color:#ffd8df; padding:8px 10px; border-radius:9px; }
-    .admin-hidden { display:none !important; }
-    @media(max-width:560px) {
-      .admin-box { padding:18px 13px; } .admin-form { grid-template-columns:1fr; }
-      .admin-list-item button { font-size:.72rem; }
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#050912">
+  <meta name="description" content="VINCELS: wallpapers verticales, música con IA y contenido digital.">
+  <title>VINCELS. — Tu mundo digital</title>
+  <style>
+    :root {
+      --bg: #050912; --panel: #0b1220; --panel2: #101a2a;
+      --cyan: #00d9ff; --purple: #a855f7; --text: #f4f8ff;
+      --muted: #a5b4c9; --line: rgba(95, 170, 220, .23);
+      --glow: 0 0 24px rgba(0,217,255,.16);
     }
-'''
-html = html.replace('    @media (min-width: 900px)', css_insert + '\n    @media (min-width: 900px)')
-
-# Insert admin dialogs before script.
-admin_markup = r'''
-  <!-- Acceso discreto: cinco toques en el logotipo -->
-  <div class="admin-overlay" id="adminLogin" role="dialog" aria-modal="true" aria-labelledby="adminLoginTitle">
-    <div class="admin-box" style="max-width:420px">
-      <button class="admin-close" type="button" data-close-admin aria-label="Cerrar">×</button>
-      <div class="eyebrow">Acceso privado · Demo local</div>
-      <h2 id="adminLoginTitle">Administrador VINCELS</h2>
-      <p>Introduce la contraseña para abrir el panel de prueba en este navegador.</p>
-      <form id="adminLoginForm">
-        <label style="display:grid;gap:8px;color:#c7d5e7">Contraseña
-          <input id="adminPassword" type="password" inputmode="numeric" autocomplete="current-password" required
-            style="padding:12px;color:white;background:#101b2b;border:1px solid var(--line);border-radius:10px">
-        </label>
-        <p id="adminLoginError" style="display:none;color:#ff9cab">Contraseña incorrecta.</p>
-        <button class="button" style="margin-top:14px;width:100%" type="submit">Entrar al panel</button>
-      </form>
-      <p class="admin-notice">Esta versión es solo una demostración: la clave se valida en el navegador y no protege una web estática frente a inspección técnica.</p>
-    </div>
-  </div>
-
-  <div class="admin-overlay" id="adminPanel" role="dialog" aria-modal="true" aria-labelledby="adminPanelTitle">
-    <div class="admin-box">
-      <button class="admin-close" type="button" data-close-admin aria-label="Cerrar">×</button>
-      <div class="eyebrow">Panel local</div>
-      <h2 id="adminPanelTitle">Administrar VINCELS</h2>
-      <p>Agrega contenido de prueba. Los elementos se guardan en este navegador y dispositivo.</p>
-      <div class="admin-notice">Los archivos locales no se publican automáticamente en GitHub Pages ni se ven en otros dispositivos. No borres los datos del navegador sin exportar una copia de seguridad.</div>
-      <div class="admin-tabs">
-        <button type="button" class="active" data-admin-tab="wallpapers">Wallpapers</button>
-        <button type="button" data-admin-tab="music">Música con IA</button>
-        <button type="button" data-admin-tab="backup">Copia de seguridad</button>
-      </div>
-
-      <section id="adminWallpapersSection">
-        <h3>Agregar wallpaper vertical</h3>
-        <form class="admin-form" id="wallpaperForm">
-          <label>Título<input name="title" required maxlength="70" placeholder="Ej. Neón nocturno"></label>
-          <label>Categoría<select name="category"><option>Cyberpunk</option><option>Anime</option><option>Naturaleza</option><option>Espacio</option><option>Terror</option><option>Minimalista</option><option>Otros</option></select></label>
-          <label>Imagen (JPG, PNG o WebP)<input name="image" type="file" accept="image/*" required></label>
-          <label>Calidad<select name="quality"><option>4K</option><option>HD</option><option>Full HD</option></select></label>
-          <label style="grid-column:1/-1">Descripción<input name="description" maxlength="180" placeholder="Descripción breve (opcional)"></label>
-          <button class="button" type="submit">＋ Guardar wallpaper</button>
-        </form>
-        <div class="admin-list" id="adminWallpaperList"></div>
-      </section>
-
-      <section id="adminMusicSection" class="admin-hidden">
-        <h3>Agregar música con IA</h3>
-        <form class="admin-form" id="musicForm">
-          <label>Título de la pista<input name="title" required maxlength="70" placeholder="Ej. Épica sin límites"></label>
-          <label>Género<input name="genre" required maxlength="50" placeholder="Cinemática, electrónica..."></label>
-          <label>Archivo de audio (MP3, WAV, OGG)<input name="audio" type="file" accept="audio/*" required></label>
-          <label>Portada (JPG, PNG o WebP)<input name="cover" type="file" accept="image/*" required></label>
-          <button class="button" type="submit">＋ Guardar pista</button>
-        </form>
-        <div class="admin-list" id="adminMusicList"></div>
-      </section>
-
-      <section id="adminBackupSection" class="admin-hidden">
-        <h3>Copia de seguridad</h3>
-        <p>Exporta el catálogo y los archivos que agregaste. Guarda el archivo JSON en un lugar seguro. Los archivos grandes pueden producir una copia de seguridad pesada.</p>
-        <button class="button" id="exportAdminData" type="button">⇩ Exportar catálogo local</button>
-        <label style="display:grid;gap:8px;margin-top:18px;color:#c7d5e7">Restaurar copia JSON
-          <input id="importAdminData" type="file" accept="application/json,.json" style="padding:10px;color:white;background:#101b2b;border:1px solid var(--line);border-radius:10px">
-        </label>
-        <button class="button secondary" id="restoreAdminData" type="button" style="margin-top:10px">Restaurar copia</button>
-      </section>
-      <p id="adminStatus" role="status" aria-live="polite"></p>
-    </div>
-  </div>
-
-'''
-html = html.replace('  <script>\n', admin_markup + '  <script>\n', 1)
-
-# Replace initial WALLPAPERS const with mutable array, and update rendering function to combine local entries.
-html = html.replace('    const WALLPAPERS = [', '    let WALLPAPERS = [', 1)
-html = html.replace('    const MUSIC = [', '    let MUSIC = [', 1)
-
-# Modify renderWallpapers() source: before rendering use the local records, persisted via IndexedDB.
-# We will keep original sample list as defaults and merge local uploads in front.
-html = html.replace('    function renderWallpapers() {\n      wallpaperGrid.innerHTML = "";\n      WALLPAPERS.slice(0, visibleCount).forEach((wallpaper, index) => {',
-'''    const DEFAULT_WALLPAPERS = WALLPAPERS.slice();
-    const DEFAULT_MUSIC = MUSIC.slice();
-    let localWallpapers = [];
-    let localMusic = [];
-
-    function allWallpapers() { return [...localWallpapers, ...DEFAULT_WALLPAPERS]; }
-    function allMusic() { return [...localMusic, ...DEFAULT_MUSIC]; }
-
-    function renderWallpapers() {
-      const items = allWallpapers();
-      wallpaperGrid.innerHTML = "";
-      items.slice(0, visibleCount).forEach((wallpaper, index) => {''', 1)
-html = html.replace('      document.getElementById("showMore").style.display = visibleCount >= WALLPAPERS.length ? "none" : "inline-flex";',
-                    '      document.getElementById("showMore").style.display = visibleCount >= allWallpapers().length ? "none" : "inline-flex";', 1)
-html = html.replace('      visibleCount = Math.min(visibleCount + 4, WALLPAPERS.length);',
-                    '      visibleCount = Math.min(visibleCount + 4, allWallpapers().length);', 1)
-
-# Replace music rendering block with a function that supports uploaded local audio blobs/data URLs.
-old_music_block = '''    const musicGrid = document.getElementById("musicGrid");
-    MUSIC.forEach(track => {
-      const card = document.createElement("article");
-      card.className = "music-card";
-      card.innerHTML = `<div class="music-art"><img src="${track.image}" alt="" loading="lazy"><button class="play-button" type="button" aria-label="Reproducir ${track.title}">${track.audio ? "▶" : "♪"}</button></div><div class="music-meta"><strong>${track.title}</strong><small>${track.genre}</small></div>`;
-      const button = card.querySelector("button");
-      if (track.audio) {
-        const audio = new Audio(track.audio);
-        button.addEventListener("click", () => {
-          if (audio.paused) {
-            document.querySelectorAll("audio").forEach(a => { if (a !== audio) a.pause(); });
-            audio.play();
-            button.textContent = "Ⅱ";
-          } else { audio.pause(); button.textContent = "▶"; }
-        });
-      } else {
-        button.title = "Añade una URL de audio en el arreglo MUSIC para activar esta pista";
-        button.addEventListener("click", () => alert("Esta pista es una tarjeta de muestra. Añade la URL de tu archivo de audio en la propiedad audio del arreglo MUSIC."));
-      }
-      musicGrid.appendChild(card);
-    });
-'''
-new_music_block = '''    const musicGrid = document.getElementById("musicGrid");
-    function renderMusic() {
-      musicGrid.innerHTML = "";
-      allMusic().forEach(track => {
-        const card = document.createElement("article");
-        card.className = "music-card";
-        card.innerHTML = `<div class="music-art"><img src="${track.cover || track.image}" alt="Portada de ${track.title}" loading="lazy"><button class="play-button" type="button" aria-label="Reproducir ${track.title}">${track.audio ? "▶" : "♪"}</button></div><div class="music-meta"><strong>${track.title}</strong><small>${track.genre || "Música con IA"}</small><audio controls preload="none" style="display:${track.audio ? "block" : "none"};width:100%;margin-top:9px"></audio></div>`;
-        const button = card.querySelector(".play-button");
-        const audioElement = card.querySelector("audio");
-        if (track.audio) {
-          audioElement.src = track.audio;
-          button.addEventListener("click", () => {
-            musicGrid.querySelectorAll("audio").forEach(a => { if (a !== audioElement) { a.pause(); const b = a.closest(".music-card").querySelector(".play-button"); if (b) b.textContent = "▶"; } });
-            if (audioElement.paused) { audioElement.play().catch(() => alert("No se pudo reproducir este audio en el navegador.")); button.textContent = "Ⅱ"; }
-            else { audioElement.pause(); button.textContent = "▶"; }
-          });
-          audioElement.addEventListener("ended", () => button.textContent = "▶");
-        } else {
-          button.title = "Pista de ejemplo sin archivo de audio";
-          button.addEventListener("click", () => alert("Esta es una tarjeta de muestra. Agrega una pista desde el administrador para reproducir audio real."));
-        }
-        musicGrid.appendChild(card);
-      });
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; color: var(--text); background:
+        radial-gradient(ellipse at 70% 0%, rgba(0,91,160,.16), transparent 35%),
+        linear-gradient(180deg, #050912, #070b15 60%, #03060c);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
     }
-    renderMusic();
-'''
-if old_music_block not in html:
-    raise ValueError("No se encontró el bloque de música original.")
-html = html.replace(old_music_block, new_music_block, 1)
-
-# Add admin logic before year/render calls at bottom.
-admin_js = r'''
-    // Administrador local de demostración. No sustituye autenticación del servidor.
-    const ADMIN_DEMO_PASSWORD = "2549"; // No usar como protección real en un sitio público.
-    const DB_NAME = "vincelsLocalAdmin";
-    const DB_STORE = "media";
-    let adminDB = null;
-    let selectedImportFile = null;
-    let logoTapCount = 0;
-    let logoTapTimer = null;
-
-    function openAdminDB() {
-      return new Promise((resolve, reject) => {
-        if (!("indexedDB" in window)) { reject(new Error("Este navegador no admite IndexedDB.")); return; }
-        const request = indexedDB.open(DB_NAME, 1);
-        request.onupgradeneeded = () => {
-          const db = request.result;
-          if (!db.objectStoreNames.contains(DB_STORE)) db.createObjectStore(DB_STORE, { keyPath: "id", autoIncrement: true });
-        };
-        request.onsuccess = () => { adminDB = request.result; resolve(adminDB); };
-        request.onerror = () => reject(request.error);
-      });
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; }
+    .topbar {
+      position: sticky; top: 0; z-index: 20; display: flex; align-items: center;
+      justify-content: space-between; gap: 18px; padding: 15px clamp(16px, 4vw, 52px);
+      background: rgba(4,9,17,.88); backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--line);
     }
-    function dbRequest(mode, action, value) {
-      return new Promise((resolve, reject) => {
-        const tx = adminDB.transaction(DB_STORE, mode);
-        const store = tx.objectStore(DB_STORE);
-        let req;
-        if (action === "all") req = store.getAll();
-        else if (action === "add") req = store.add(value);
-        else if (action === "delete") req = store.delete(value);
-        else if (action === "clear") req = store.clear();
-        else if (action === "put") req = store.put(value);
-        req.onsuccess = () => resolve(req.result);
-        req.onerror = () => reject(req.error);
-      });
+    .logo { font-size: clamp(1.35rem, 3vw, 1.8rem); font-weight: 850; letter-spacing: .11em; }
+    .logo span { color: var(--cyan); }
+    .nav-links { display: flex; gap: 9px; align-items: center; }
+    .nav-links a, .menu-panel a { padding: 10px 13px; border-radius: 999px; color: #d8e4f3; font-size: .9rem; }
+    .nav-links a:hover, .nav-links a.active { border: 1px solid var(--cyan); color: white; box-shadow: var(--glow); }
+    .menu-wrap { position: relative; }
+    .menu-button {
+      display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
+      color: white; border: 1px solid var(--line); background: #0b1422; font-size: 1.35rem;
     }
-    function readFileAsDataURL(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = () => reject(reader.error);
-        reader.readAsDataURL(file);
-      });
+    .menu-panel {
+      display: none; position: absolute; right: 0; top: 54px; min-width: 190px; padding: 8px;
+      background: #0b1220; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 16px 45px #0009;
     }
-    function setAdminStatus(message) { document.getElementById("adminStatus").textContent = message; }
-    function openOverlay(id) { document.getElementById(id).classList.add("open"); }
-    function closeOverlays() { document.querySelectorAll(".admin-overlay").forEach(el => el.classList.remove("open")); }
-    async function refreshAdminCatalog() {
-      try {
-        const rows = await dbRequest("readonly", "all");
-        localWallpapers = rows.filter(r => r.kind === "wallpaper").map(r => ({...r, local: true}));
-        localMusic = rows.filter(r => r.kind === "music").map(r => ({...r, local: true}));
-        visibleCount = Math.max(6, Math.min(visibleCount, allWallpapers().length));
-        renderWallpapers(); renderMusic(); renderAdminLists();
-      } catch (error) { setAdminStatus("No se pudo leer el catálogo local: " + error.message); }
-    }
-    function renderAdminLists() {
-      const wallpaperList = document.getElementById("adminWallpaperList");
-      wallpaperList.innerHTML = "";
-      localWallpapers.forEach(item => {
-        const row = document.createElement("div"); row.className = "admin-list-item";
-        row.innerHTML = `<img alt="" src="${item.image}"><div class="admin-list-copy"><strong></strong><small></small></div><button type="button">Eliminar</button>`;
-        row.querySelector("strong").textContent = item.title;
-        row.querySelector("small").textContent = `${item.category || "Otros"} · ${item.quality || "HD"}`;
-        row.querySelector("button").addEventListener("click", async () => { await dbRequest("readwrite", "delete", item.id); await refreshAdminCatalog(); setAdminStatus("Wallpaper eliminado del catálogo local."); });
-        wallpaperList.appendChild(row);
-      });
-      const musicList = document.getElementById("adminMusicList");
-      musicList.innerHTML = "";
-      localMusic.forEach(item => {
-        const row = document.createElement("div"); row.className = "admin-list-item";
-        row.innerHTML = `<img alt="" src="${item.cover}"><div class="admin-list-copy"><strong></strong><small></small></div><button type="button">Eliminar</button>`;
-        row.querySelector("strong").textContent = item.title;
-        row.querySelector("small").textContent = item.genre || "Música con IA";
-        row.querySelector("button").addEventListener("click", async () => { await dbRequest("readwrite", "delete", item.id); await refreshAdminCatalog(); setAdminStatus("Pista eliminada del catálogo local."); });
-        musicList.appendChild(row);
-      });
-    }
-    document.querySelectorAll(".admin-logo").forEach(logo => {
-      logo.addEventListener("click", event => {
-        event.preventDefault();
-        logoTapCount++;
-        clearTimeout(logoTapTimer);
-        logoTapTimer = setTimeout(() => { logoTapCount = 0; }, 1800);
-        if (logoTapCount >= 5) {
-          logoTapCount = 0;
-          document.getElementById("adminPassword").value = "";
-          document.getElementById("adminLoginError").style.display = "none";
-          openOverlay("adminLogin");
-          setTimeout(() => document.getElementById("adminPassword").focus(), 50);
-        }
-      });
-    });
-    document.querySelectorAll("[data-close-admin]").forEach(button => button.addEventListener("click", closeOverlays));
-    document.querySelectorAll(".admin-overlay").forEach(overlay => overlay.addEventListener("click", e => { if (e.target === overlay) closeOverlays(); }));
-    document.addEventListener("keydown", e => { if (e.key === "Escape") closeOverlays(); });
-
-    document.getElementById("adminLoginForm").addEventListener("submit", async e => {
-      e.preventDefault();
-      if (document.getElementById("adminPassword").value !== ADMIN_DEMO_PASSWORD) {
-        document.getElementById("adminLoginError").style.display = "block"; return;
-      }
-      try {
-        await openAdminDB();
-        closeOverlays(); openOverlay("adminPanel");
-        await refreshAdminCatalog();
-        setAdminStatus("Panel listo. Los cambios se guardan solo en este navegador.");
-      } catch (error) {
-        document.getElementById("adminLoginError").textContent = "No se pudo iniciar el almacenamiento local: " + error.message;
-        document.getElementById("adminLoginError").style.display = "block";
-      }
-    });
-
-    document.querySelectorAll("[data-admin-tab]").forEach(button => button.addEventListener("click", () => {
-      document.querySelectorAll("[data-admin-tab]").forEach(b => b.classList.toggle("active", b === button));
-      document.getElementById("adminWallpapersSection").classList.toggle("admin-hidden", button.dataset.adminTab !== "wallpapers");
-      document.getElementById("adminMusicSection").classList.toggle("admin-hidden", button.dataset.adminTab !== "music");
-      document.getElementById("adminBackupSection").classList.toggle("admin-hidden", button.dataset.adminTab !== "backup");
-    }));
-
-    document.getElementById("wallpaperForm").addEventListener("submit", async e => {
-      e.preventDefault();
-      try {
-        const form = e.currentTarget, data = new FormData(form), file = data.get("image");
-        if (!file || !file.type.startsWith("image/")) { setAdminStatus("Selecciona un archivo de imagen válido."); return; }
-        if (file.size > 12 * 1024 * 1024) { setAdminStatus("La imagen supera 12 MB. Usa una imagen más ligera."); return; }
-        const image = await readFileAsDataURL(file);
-        await dbRequest("readwrite", "add", {
-          kind: "wallpaper", title: String(data.get("title")).trim(), category: data.get("category"),
-          quality: data.get("quality"), description: String(data.get("description") || "").trim(),
-          image, createdAt: new Date().toISOString()
-        });
-        form.reset(); await refreshAdminCatalog(); setAdminStatus("Wallpaper guardado y añadido a la galería local.");
-      } catch (error) { setAdminStatus("No se pudo guardar el wallpaper: " + error.message); }
-    });
-
-    document.getElementById("musicForm").addEventListener("submit", async e => {
-      e.preventDefault();
-      try {
-        const form = e.currentTarget, data = new FormData(form), audioFile = data.get("audio"), coverFile = data.get("cover");
-        if (!audioFile || !audioFile.type.startsWith("audio/")) { setAdminStatus("Selecciona un archivo de audio válido."); return; }
-        if (!coverFile || !coverFile.type.startsWith("image/")) { setAdminStatus("Selecciona una portada válida."); return; }
-        if (audioFile.size > 25 * 1024 * 1024 || coverFile.size > 12 * 1024 * 1024) { setAdminStatus("Límite de esta demo: audio 25 MB y portada 12 MB."); return; }
-        const [audio, cover] = await Promise.all([readFileAsDataURL(audioFile), readFileAsDataURL(coverFile)]);
-        await dbRequest("readwrite", "add", {
-          kind: "music", title: String(data.get("title")).trim(), genre: String(data.get("genre")).trim(),
-          audio, cover, createdAt: new Date().toISOString()
-        });
-        form.reset(); await refreshAdminCatalog(); setAdminStatus("Pista guardada con portada y reproductor en el catálogo local.");
-      } catch (error) { setAdminStatus("No se pudo guardar la pista: " + error.message); }
-    });
-
-    document.getElementById("exportAdminData").addEventListener("click", async () => {
-      try {
-        const rows = await dbRequest("readonly", "all");
-        const blob = new Blob([JSON.stringify({version:1, exportedAt:new Date().toISOString(), items:rows}, null, 2)], {type:"application/json"});
-        const url = URL.createObjectURL(blob), a = document.createElement("a");
-        a.href = url; a.download = "vincels-catalogo-local.json"; a.click(); URL.revokeObjectURL(url);
-        setAdminStatus("Copia de seguridad exportada.");
-      } catch (error) { setAdminStatus("No se pudo exportar: " + error.message); }
-    });
-    document.getElementById("restoreAdminData").addEventListener("click", async () => {
-      const file = document.getElementById("importAdminData").files[0];
-      if (!file) { setAdminStatus("Selecciona primero un archivo JSON."); return; }
-      try {
-        const backup = JSON.parse(await file.text());
-        if (!Array.isArray(backup.items)) throw new Error("El archivo no tiene el formato esperado.");
-        await dbRequest("readwrite", "clear");
-        for (const item of backup.items) {
-          const copy = {...item}; delete copy.id;
-          await dbRequest("readwrite", "add", copy);
-        }
-        await refreshAdminCatalog(); setAdminStatus("Copia restaurada correctamente.");
-      } catch (error) { setAdminStatus("No se pudo restaurar la copia: " + error.message); }
-    });
-'''
-html = html.replace('    document.getElementById("year").textContent = new Date().getFullYear();\n    renderWallpapers();',
-                    admin_js + '\n    document.getElementById("year").textContent = new Date().getFullYear();\n    renderWallpapers();', 1)
-
-# Add hint in footer so the tap target is the logo, no visible admin link.
-out = Path("/mnt/data/vincels_web_admin_demo.html")
-out.write_text(html, encoding="utf-8")
-print(f"Creado: {out} ({out.stat().st_size:,} bytes)")
+    .menu-panel.open { display: grid; }
+    .menu-panel a { border-radius: 10px; }
+    .menu-panel a:hover { background: #122339; color: var(--cyan); }
+    .hero {
