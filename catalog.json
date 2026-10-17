@@ -1,6 +1,15 @@
 {
   "wallpapers": [
     {
+      "id": "mvcfw0ib",
+      "title": "Día de descanso",
+      "category": "Otros",
+      "quality": "4K",
+      "description": "Un día relajante en fondo de bikini",
+      "image": "assets/wallpapers/mvcfw0ib-dia-de-descanso.jpg",
+      "thumb": "assets/wallpapers/mvcfw0ib-dia-de-descanso-thumb.jpg"
+    },
+    {
       "id": "mvcfumq3",
       "title": "Visita inesperada",
       "category": "Otros",
