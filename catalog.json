@@ -1,6 +1,15 @@
 {
   "wallpapers": [
     {
+      "id": "mvcispzo",
+      "title": "Radiador Springs",
+      "category": "Naturaleza",
+      "quality": "4K",
+      "description": "Radiador Springs",
+      "image": "assets/wallpapers/mvcispzo-radiador-springs.jpg",
+      "thumb": "assets/wallpapers/mvcispzo-radiador-springs-thumb.jpg"
+    },
+    {
       "id": "mvchp2ya",
       "title": "Palacio de Jade",
       "category": "Naturaleza",
