@@ -1,6 +1,15 @@
 {
   "wallpapers": [
     {
+      "id": "mvcfxurb",
+      "title": "Mañana traquila",
+      "category": "Anime",
+      "quality": "4K",
+      "description": "Konoha",
+      "image": "assets/wallpapers/mvcfxurb-manana-traquila.jpg",
+      "thumb": "assets/wallpapers/mvcfxurb-manana-traquila-thumb.jpg"
+    },
+    {
       "id": "mvcfw0ib",
       "title": "Día de descanso",
       "category": "Otros",
