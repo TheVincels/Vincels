@@ -1,6 +1,15 @@
 {
   "wallpapers": [
     {
+      "id": "mvcj4t42",
+      "title": "Sazuke",
+      "category": "Cyberpunk",
+      "quality": "4K",
+      "description": "",
+      "image": "assets/wallpapers/mvcj4t42-sazuke.jpg",
+      "thumb": "assets/wallpapers/mvcj4t42-sazuke-thumb.jpg"
+    },
+    {
       "id": "mvcj2ue7",
       "title": "Itachi",
       "category": "Anime",
