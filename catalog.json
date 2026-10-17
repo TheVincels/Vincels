@@ -1,6 +1,15 @@
 {
   "wallpapers": [
     {
+      "id": "mvcj68ca",
+      "title": "Sazuke Sharingan",
+      "category": "Cyberpunk",
+      "quality": "4K",
+      "description": "",
+      "image": "assets/wallpapers/mvcj68ca-sazuke-sharingan.jpg",
+      "thumb": "assets/wallpapers/mvcj68ca-sazuke-sharingan-thumb.jpg"
+    },
+    {
       "id": "mvcj4t42",
       "title": "Sazuke",
       "category": "Cyberpunk",
