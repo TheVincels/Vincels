@@ -29,7 +29,6 @@
         .neon-border { border: 1px solid rgba(56, 189, 248, 0.4); }
         .neon-border:hover { border-color: rgba(56, 189, 248, 0.8); background: rgba(56, 189, 248, 0.1); }
 
-        /* Ajuste para el reproductor nativo oscuro */
         audio {
             width: 100%;
             height: 35px;
@@ -47,9 +46,8 @@
 </head>
 <body class="antialiased min-h-screen pb-10">
 
-    <!-- Barra de Navegación Superior -->
+    <!-- Barra de Navegación -->
     <nav class="glass-nav fixed w-full top-0 z-50 px-5 py-4 flex justify-between items-center">
-        <!-- Agregamos el ID vincels-logo y quitamos la selección de texto para evitar que se sombree al tocar rápido -->
         <div id="vincels-logo" class="text-2xl font-orbitron font-bold tracking-widest text-white cursor-pointer select-none">VINCELS</div>
         <div class="flex gap-4">
             <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
@@ -57,56 +55,94 @@
         </div>
     </nav>
 
-    <!-- MODAL DE CONTRASEÑA (Oculto por defecto) -->
+    <!-- MODAL DE CONTRASEÑA -->
     <div id="login-modal" class="hidden fixed inset-0 z-[60] bg-black/80 backdrop-blur-md justify-center items-center px-4">
-        <div class="card-glass p-6 rounded-2xl w-full max-w-sm text-center">
-            <h3 class="font-orbitron font-bold text-lg mb-4 text-blue-400">ADMIN ACCESS</h3>
-            <input type="password" id="admin-pass" placeholder="Ingresa el código" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 mb-4 text-white text-center tracking-[0.5em] focus:outline-none focus:border-blue-500">
+        <div class="card-glass p-6 rounded-2xl w-full max-w-sm text-center border border-blue-500/30">
+            <svg class="w-12 h-12 text-blue-500 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+            <h3 class="font-orbitron font-bold text-lg mb-4 text-white">ADMIN ACCESS</h3>
+            <input type="password" id="admin-pass" placeholder="****" class="w-full bg-gray-900/80 border border-gray-600 rounded-xl px-4 py-3 mb-5 text-white text-center tracking-[1em] focus:outline-none focus:border-blue-500 transition">
             <div class="flex gap-3">
-                <button id="cancel-login" class="flex-1 bg-gray-800 hover:bg-gray-700 text-white font-semibold py-3 rounded-xl transition">CANCELAR</button>
-                <button id="submit-login" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 rounded-xl transition">ENTRAR</button>
+                <button id="cancel-login" class="flex-1 bg-gray-800 hover:bg-gray-700 text-gray-300 font-semibold py-3 rounded-xl transition text-sm">CANCELAR</button>
+                <button id="submit-login" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 rounded-xl transition text-sm shadow-[0_0_15px_rgba(37,99,235,0.5)]">ACCEDER</button>
             </div>
         </div>
     </div>
 
-    <!-- PANEL DE ADMINISTRADOR (Oculto por defecto) -->
+    <!-- PANEL DE ADMINISTRADOR PRO -->
     <section id="admin-panel" class="hidden pt-24 px-4 max-w-md mx-auto mb-8">
-        <div class="border border-green-500/30 bg-green-900/10 p-5 rounded-2xl">
-            <h2 class="font-orbitron text-green-400 font-bold mb-4 flex justify-between items-center">
-                PANEL DE CONTROL 
-                <span id="close-admin" class="text-xs bg-red-900/50 text-red-300 px-2 py-1 rounded cursor-pointer">Cerrar</span>
+        <div class="card-glass p-5 rounded-2xl border border-blue-500/40 relative overflow-hidden">
+            <!-- Decoración de fondo -->
+            <div class="absolute top-0 right-0 w-32 h-32 bg-blue-600/10 rounded-full blur-3xl"></div>
+            
+            <h2 class="font-orbitron text-blue-400 font-bold mb-6 flex justify-between items-center text-sm tracking-wider">
+                <span class="flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    DASHBOARD
+                </span>
+                <button id="close-admin" class="text-[10px] bg-red-500/10 text-red-400 border border-red-500/30 px-3 py-1.5 rounded-lg font-bold uppercase tracking-widest hover:bg-red-500/20 transition">Cerrar</button>
             </h2>
             
-            <!-- Agregar Música -->
-            <div class="mb-6 bg-black/40 p-3 rounded-xl">
-                <h3 class="text-xs font-bold text-gray-400 mb-2 uppercase">Subir Música IA</h3>
-                <input type="text" id="music-title" placeholder="Título de la pista (ej. Cyber Chill)" class="w-full bg-gray-800 text-xs rounded p-2 mb-2 border border-gray-700 text-white">
-                <input type="text" id="music-cover" placeholder="URL de la imagen de portada" class="w-full bg-gray-800 text-xs rounded p-2 mb-2 border border-gray-700 text-white">
-                <input type="text" id="music-audio" placeholder="URL del archivo de audio (.mp3)" class="w-full bg-gray-800 text-xs rounded p-2 mb-3 border border-gray-700 text-white">
-                <button id="add-music-btn" class="w-full bg-green-600 hover:bg-green-500 text-white text-xs font-bold py-2 rounded transition">PUBLICAR MÚSICA</button>
+            <!-- SECCIÓN MÚSICA -->
+            <div class="mb-6 bg-gray-900/50 p-4 rounded-xl border border-gray-700/50">
+                <h3 class="text-xs font-bold text-gray-300 mb-3 uppercase tracking-widest flex items-center gap-2">
+                    <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
+                    Nuevo Track IA
+                </h3>
+                
+                <input type="text" id="music-title" placeholder="Título (ej. Cyber Chill)" class="w-full bg-black/40 text-sm rounded-lg p-3 mb-3 border border-gray-700 focus:border-blue-500 focus:outline-none text-white">
+                
+                <!-- Input Archivo: Portada -->
+                <label class="flex flex-col items-center justify-center w-full h-16 border-2 border-dashed border-gray-600 rounded-lg cursor-pointer bg-black/20 hover:bg-black/40 hover:border-purple-400 transition mb-3">
+                    <div class="flex flex-col items-center justify-center pt-2">
+                        <p id="music-cover-text" class="text-xs text-gray-400 text-center px-2 truncate w-full"><span class="font-semibold text-purple-400">Toca para elegir</span> portada (.jpg, .png)</p>
+                    </div>
+                    <input id="music-cover" type="file" accept="image/*" class="hidden" />
+                </label>
+
+                <!-- Input Archivo: Audio -->
+                <label class="flex flex-col items-center justify-center w-full h-16 border-2 border-dashed border-gray-600 rounded-lg cursor-pointer bg-black/20 hover:bg-black/40 hover:border-blue-400 transition mb-4">
+                    <div class="flex flex-col items-center justify-center pt-2">
+                        <p id="music-audio-text" class="text-xs text-gray-400 text-center px-2 truncate w-full"><span class="font-semibold text-blue-400">Toca para subir</span> audio (.mp3, .wav)</p>
+                    </div>
+                    <input id="music-audio" type="file" accept="audio/*" class="hidden" />
+                </label>
+
+                <button id="add-music-btn" class="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white text-xs font-bold py-3 rounded-lg transition shadow-lg">PUBLICAR MÚSICA</button>
             </div>
 
-            <!-- Agregar Wallpaper -->
-            <div class="bg-black/40 p-3 rounded-xl">
-                <h3 class="text-xs font-bold text-gray-400 mb-2 uppercase">Subir Wallpaper</h3>
-                <input type="text" id="wp-title" placeholder="Nombre (ej. Anime Lofi)" class="w-full bg-gray-800 text-xs rounded p-2 mb-2 border border-gray-700 text-white">
-                <input type="text" id="wp-img" placeholder="URL de la imagen o GIF" class="w-full bg-gray-800 text-xs rounded p-2 mb-3 border border-gray-700 text-white">
-                <button id="add-wp-btn" class="w-full bg-green-600 hover:bg-green-500 text-white text-xs font-bold py-2 rounded transition">PUBLICAR WALLPAPER</button>
+            <!-- SECCIÓN WALLPAPER -->
+            <div class="bg-gray-900/50 p-4 rounded-xl border border-gray-700/50">
+                <h3 class="text-xs font-bold text-gray-300 mb-3 uppercase tracking-widest flex items-center gap-2">
+                    <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    Nuevo Wallpaper
+                </h3>
+                
+                <input type="text" id="wp-title" placeholder="Nombre (ej. Anime Lofi)" class="w-full bg-black/40 text-sm rounded-lg p-3 mb-3 border border-gray-700 focus:border-cyan-500 focus:outline-none text-white">
+                
+                <!-- Input Archivo: Wallpaper -->
+                <label class="flex flex-col items-center justify-center w-full h-20 border-2 border-dashed border-gray-600 rounded-lg cursor-pointer bg-black/20 hover:bg-black/40 hover:border-cyan-400 transition mb-4">
+                    <div class="flex flex-col items-center justify-center pt-2">
+                        <svg class="w-6 h-6 text-gray-400 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                        <p id="wp-img-text" class="text-xs text-gray-400 text-center px-2 truncate w-full"><span class="font-semibold text-cyan-400">Toca para buscar</span> imagen o video corto</p>
+                    </div>
+                    <input id="wp-img" type="file" accept="image/*,video/*" class="hidden" />
+                </label>
+
+                <button id="add-wp-btn" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold py-3 rounded-lg transition shadow-[0_0_10px_rgba(8,145,178,0.4)]">PUBLICAR WALLPAPER</button>
             </div>
         </div>
     </section>
 
-    <!-- Contenido Principal -->
+    <!-- Contenido Principal de la Página -->
     <main class="pt-24 px-4 max-w-md mx-auto space-y-6">
 
-        <!-- Destacado Principal -->
         <section class="card-glass rounded-2xl overflow-hidden relative h-64 flex flex-col justify-end p-5">
-            <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800&auto=format&fit=crop" alt="Neon Drive" class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay">
+            <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay">
             <div class="absolute inset-0 bg-gradient-to-t from-[#0B0E14] via-transparent to-transparent"></div>
             <div class="relative z-10">
                 <h2 class="text-2xl font-orbitron font-bold mb-3 glow-text text-white">NEON DRIVE (LIVE)</h2>
                 <div class="flex gap-3">
-                    <button class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold py-3 px-4 rounded-xl w-full transition tracking-wide">DOWNLOAD FREE</button>
+                    <button class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold py-3 px-4 rounded-xl w-full transition tracking-wide shadow-lg">DOWNLOAD FREE</button>
                     <button class="bg-transparent neon-border text-gray-300 hover:text-white text-xs font-semibold py-3 px-4 rounded-xl w-full transition tracking-wide">PREVIEW</button>
                 </div>
             </div>
@@ -119,50 +155,31 @@
                 AI VIBES & SOUNDTRACKS
             </h3>
             
-            <!-- Contenedor dinámico para la música -->
             <div id="music-container" class="space-y-3">
-                <!-- Track de ejemplo -->
                 <div class="card-glass p-3 rounded-2xl flex items-center gap-4">
                     <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=150&auto=format&fit=crop" class="w-16 h-16 rounded-xl object-cover drop-shadow-md">
                     <div class="flex-1 min-w-0">
                         <h4 class="font-orbitron text-xs font-bold text-white truncate">Lofi Cyber City</h4>
                         <p class="text-[10px] text-gray-400 mb-1">VINCELS AI AUDIO</p>
-                        <!-- Reproductor de audio nativo -->
                         <audio controls class="w-full">
                             <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-                            Tu navegador no soporta el audio.
                         </audio>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Galería de Fondos Populares -->
+        <!-- GALERÍA DE WALLPAPERS -->
         <section>
             <h3 class="font-orbitron text-sm font-bold text-gray-300 mb-4 tracking-wider mt-2">POPULAR WALLPAPERS</h3>
             
-            <!-- Contenedor dinámico para los wallpapers -->
             <div id="wallpapers-container" class="grid grid-cols-2 gap-4">
-                
-                <!-- Wallpaper de ejemplo -->
                 <div class="card-glass p-2.5 rounded-2xl flex flex-col">
                     <div class="relative rounded-xl overflow-hidden h-40 mb-3">
                         <span class="absolute top-2 right-2 bg-black/70 backdrop-blur-sm text-[9px] font-bold px-2 py-1 rounded border border-gray-600 z-10">4K</span>
-                        <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover transition-transform hover:scale-110">
+                        <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover">
                     </div>
-                    <button class="bg-gray-800/80 hover:bg-gray-700 text-[11px] font-semibold py-2.5 rounded-xl text-gray-300 w-full mt-auto flex justify-center items-center gap-2 border border-gray-700">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                        DOWNLOAD
-                    </button>
-                </div>
-
-                <!-- Wallpaper de ejemplo 2 -->
-                <div class="card-glass p-2.5 rounded-2xl flex flex-col">
-                    <div class="relative rounded-xl overflow-hidden h-40 mb-3">
-                        <span class="absolute top-2 right-2 bg-blue-900/80 backdrop-blur-sm text-blue-200 text-[9px] font-bold px-2 py-1 rounded border border-blue-500 z-10 glow-text">LIVE</span>
-                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover transition-transform hover:scale-110">
-                    </div>
-                    <button class="bg-gray-800/80 hover:bg-gray-700 text-[11px] font-semibold py-2.5 rounded-xl text-gray-300 w-full mt-auto flex justify-center items-center gap-2 border border-gray-700">
+                    <button class="bg-gray-800/80 text-[11px] font-semibold py-2.5 rounded-xl text-gray-300 w-full mt-auto flex justify-center items-center gap-2 border border-gray-700">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                         DOWNLOAD
                     </button>
@@ -172,9 +189,9 @@
 
     </main>
 
-    <!-- Scripts para la lógica del Easter Egg y el Panel -->
+    <!-- LÓGICA DE PROGRAMACIÓN JAVASCRIPT -->
     <script>
-        // Lógica del Easter Egg (5 toques)
+        // 1. Easter Egg para Login
         const logo = document.getElementById('vincels-logo');
         const loginModal = document.getElementById('login-modal');
         const adminPass = document.getElementById('admin-pass');
@@ -184,24 +201,16 @@
 
         logo.addEventListener('click', () => {
             clickCount++;
-            
-            // Limpia el temporizador anterior
             clearTimeout(clickTimer);
-            
-            // Si llega a 5 toques, muestra el modal
             if (clickCount === 5) {
                 loginModal.classList.remove('hidden');
                 loginModal.classList.add('flex');
-                clickCount = 0; // Reinicia el contador
+                clickCount = 0; 
             }
-
-            // Si pasa 1 segundo sin tocar, reinicia el contador (para que tengan que ser rápidos)
-            clickTimer = setTimeout(() => {
-                clickCount = 0;
-            }, 1000);
+            clickTimer = setTimeout(() => { clickCount = 0; }, 1000);
         });
 
-        // Lógica de Login
+        // 2. Control del Modal de Login
         document.getElementById('cancel-login').addEventListener('click', () => {
             loginModal.classList.add('hidden');
             loginModal.classList.remove('flex');
@@ -212,81 +221,98 @@
             if (adminPass.value === '2549') {
                 loginModal.classList.add('hidden');
                 loginModal.classList.remove('flex');
-                
-                // Ocultar margen superior del main y mostrar panel
                 document.querySelector('main').classList.remove('pt-24');
                 document.querySelector('main').classList.add('pt-4');
                 document.getElementById('admin-panel').classList.remove('hidden');
                 adminPass.value = '';
             } else {
-                alert('Contraseña incorrecta. Acceso denegado.');
+                alert('Código incorrecto.');
                 adminPass.value = '';
             }
         });
 
-        // Cerrar Panel Admin
         document.getElementById('close-admin').addEventListener('click', () => {
             document.getElementById('admin-panel').classList.add('hidden');
             document.querySelector('main').classList.remove('pt-4');
             document.querySelector('main').classList.add('pt-24');
         });
 
-        // Lógica para Agregar Música dinámicamente
+        // 3. Cambiar texto al seleccionar archivos (Feedback Visual)
+        document.getElementById('music-cover').addEventListener('change', function() {
+            if(this.files[0]) document.getElementById('music-cover-text').innerHTML = `<span class="text-green-400 font-bold">✓ Seleccionado:</span> ${this.files[0].name}`;
+        });
+        document.getElementById('music-audio').addEventListener('change', function() {
+            if(this.files[0]) document.getElementById('music-audio-text').innerHTML = `<span class="text-green-400 font-bold">✓ Seleccionado:</span> ${this.files[0].name}`;
+        });
+        document.getElementById('wp-img').addEventListener('change', function() {
+            if(this.files[0]) document.getElementById('wp-img-text').innerHTML = `<span class="text-green-400 font-bold">✓ Seleccionado:</span> ${this.files[0].name}`;
+        });
+
+        // 4. Lógica de publicación mediante URL.createObjectURL
         document.getElementById('add-music-btn').addEventListener('click', () => {
             const title = document.getElementById('music-title').value;
-            const cover = document.getElementById('music-cover').value;
-            const audioUrl = document.getElementById('music-audio').value;
+            const coverFile = document.getElementById('music-cover').files[0];
+            const audioFile = document.getElementById('music-audio').files[0];
 
-            if(!title || !cover || !audioUrl) { alert("Llena todos los campos de música"); return; }
+            if(!title || !coverFile || !audioFile) { alert("Llena todos los campos y selecciona los archivos."); return; }
+
+            // Crear URLs locales para los archivos subidos
+            const coverUrl = URL.createObjectURL(coverFile);
+            const audioUrl = URL.createObjectURL(audioFile);
 
             const newMusicHTML = `
-                <div class="card-glass p-3 rounded-2xl flex items-center gap-4 mt-3">
-                    <img src="${cover}" class="w-16 h-16 rounded-xl object-cover drop-shadow-md">
+                <div class="card-glass p-3 rounded-2xl flex items-center gap-4 mt-3 border-l-2 border-purple-500">
+                    <img src="${coverUrl}" class="w-16 h-16 rounded-xl object-cover drop-shadow-md">
                     <div class="flex-1 min-w-0">
                         <h4 class="font-orbitron text-xs font-bold text-white truncate">${title}</h4>
-                        <p class="text-[10px] text-gray-400 mb-1">VINCELS AI AUDIO</p>
+                        <p class="text-[10px] text-gray-400 mb-1">VINCELS AI AUDIO (NUEVO)</p>
                         <audio controls class="w-full">
-                            <source src="${audioUrl}" type="audio/mpeg">
+                            <source src="${audioUrl}" type="${audioFile.type}">
                         </audio>
                     </div>
                 </div>
             `;
             
-            // Insertar al principio de la lista
             document.getElementById('music-container').insertAdjacentHTML('afterbegin', newMusicHTML);
             
-            // Limpiar campos
+            // Resetear
             document.getElementById('music-title').value = '';
             document.getElementById('music-cover').value = '';
             document.getElementById('music-audio').value = '';
+            document.getElementById('music-cover-text').innerHTML = `<span class="font-semibold text-purple-400">Toca para elegir</span> portada (.jpg, .png)`;
+            document.getElementById('music-audio-text').innerHTML = `<span class="font-semibold text-blue-400">Toca para subir</span> audio (.mp3, .wav)`;
+            alert("¡Música agregada a la pantalla!");
         });
 
-        // Lógica para Agregar Wallpapers dinámicamente
         document.getElementById('add-wp-btn').addEventListener('click', () => {
             const title = document.getElementById('wp-title').value;
-            const img = document.getElementById('wp-img').value;
+            const wpFile = document.getElementById('wp-img').files[0];
 
-            if(!title || !img) { alert("Llena todos los campos del wallpaper"); return; }
+            if(!title || !wpFile) { alert("Ingresa un nombre y selecciona un archivo."); return; }
+
+            // Crear URL local para la imagen/video subido
+            const wpUrl = URL.createObjectURL(wpFile);
 
             const newWpHTML = `
-                <div class="card-glass p-2.5 rounded-2xl flex flex-col">
+                <div class="card-glass p-2.5 rounded-2xl flex flex-col border border-cyan-500/50">
                     <div class="relative rounded-xl overflow-hidden h-40 mb-3">
-                        <span class="absolute top-2 right-2 bg-blue-900/80 backdrop-blur-sm text-blue-200 text-[9px] font-bold px-2 py-1 rounded border border-blue-500 z-10 glow-text">NEW</span>
-                        <img src="${img}" alt="${title}" class="w-full h-full object-cover transition-transform hover:scale-110">
+                        <span class="absolute top-2 right-2 bg-cyan-900/80 backdrop-blur-sm text-cyan-200 text-[9px] font-bold px-2 py-1 rounded border border-cyan-500 z-10 glow-text">NEW</span>
+                        <img src="${wpUrl}" class="w-full h-full object-cover transition-transform hover:scale-110">
                     </div>
-                    <button class="bg-gray-800/80 hover:bg-gray-700 text-[11px] font-semibold py-2.5 rounded-xl text-gray-300 w-full mt-auto flex justify-center items-center gap-2 border border-gray-700">
+                    <button class="bg-gray-800/80 hover:bg-gray-700 text-[11px] font-semibold py-2.5 rounded-xl text-white w-full mt-auto flex justify-center items-center gap-2 border border-gray-700 shadow-lg">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                         DOWNLOAD
                     </button>
                 </div>
             `;
 
-            // Insertar al principio de la galería
             document.getElementById('wallpapers-container').insertAdjacentHTML('afterbegin', newWpHTML);
 
-            // Limpiar campos
+            // Resetear
             document.getElementById('wp-title').value = '';
             document.getElementById('wp-img').value = '';
+            document.getElementById('wp-img-text').innerHTML = `<span class="font-semibold text-cyan-400">Toca para buscar</span> imagen o video corto`;
+            alert("¡Wallpaper agregado a la pantalla!");
         });
     </script>
 </body>
