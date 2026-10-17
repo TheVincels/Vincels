@@ -21,6 +21,13 @@
   ],
   "music": [
     {
+      "id": "mvbvaj7b",
+      "title": "El eterno romantico",
+      "genre": "Saxofon",
+      "audio": "assets/music/mvbvaj7b-el-eterno-romantico.mp3",
+      "cover": "assets/music/mvbvaj7b-el-eterno-romantico-cover.jpg"
+    },
+    {
       "id": "mvbv4mdx",
       "title": "Jazz Suave",
       "genre": "IA Jazz",
