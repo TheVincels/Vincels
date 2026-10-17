@@ -1,6 +1,15 @@
 {
   "wallpapers": [
     {
+      "id": "mvbv6d3j",
+      "title": "Robo divertido",
+      "category": "Otros",
+      "quality": "4K",
+      "description": "Crustáceo cascarudo, robo, plankton, Bob esponja.",
+      "image": "assets/wallpapers/mvbv6d3j-robo-divertido.jpg",
+      "thumb": "assets/wallpapers/mvbv6d3j-robo-divertido-thumb.jpg"
+    },
+    {
       "id": "mvbv3mlu",
       "title": "Viaje en Botemovil",
       "category": "Otros",
