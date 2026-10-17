@@ -391,6 +391,10 @@
       <div class="eyebrow">Panel de administrador</div>
       <h2 id="adminPanelTitle">Administrar VINCELS</h2>
       <p>Lo que publiques aquí lo verán todas las personas que visiten la página (tarda 1–2 minutos en aparecer).</p>
+      <div class="admin-notice" id="legacyBox" style="display:none;margin:12px 0;border-color:rgba(0,217,255,.55)">
+        <strong id="legacyText"></strong>
+        <div style="margin-top:10px"><button class="button" id="legacyPublish" type="button">Publicar guardados en la página</button></div>
+      </div>
       <div class="admin-tabs">
         <button type="button" class="active" data-admin-tab="wallpapers">Wallpapers</button>
         <button type="button" data-admin-tab="music">Música con IA</button>
@@ -600,9 +604,4 @@ bdQY2o1Dz3JeIAX40NJxilwJbTklIJhgjZUqjKaCUYTOISakgRgJqNqCsbAKEXQmqwwWWsBa31H4DxnZ
         img.src = track.cover || track.image;
         img.alt = "Portada de " + track.title;
         card.querySelector(".play-button").innerHTML = ICON_PLAY;
-        card.querySelector("strong").textContent = track.title;
-        card.querySelector("small").textContent = track.genre || "Música con IA";
-        card.setAttribute("aria-label", "Abrir " + track.title);
-        const open = () => openMusicPage(index, true);
-        card.addEventListener("click", open);
-        card.addEventListener("keydow
+        card.querySelector("strong").t
