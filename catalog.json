@@ -1,6 +1,15 @@
 {
   "wallpapers": [
     {
+      "id": "mvcjd3uh",
+      "title": "Sazuke",
+      "category": "Cyberpunk",
+      "quality": "4K",
+      "description": "",
+      "image": "assets/wallpapers/mvcjd3uh-sazuke.jpg",
+      "thumb": "assets/wallpapers/mvcjd3uh-sazuke-thumb.jpg"
+    },
+    {
       "id": "mvcj7onl",
       "title": "Kakashi Chidori",
       "category": "Cyberpunk",
