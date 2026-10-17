@@ -1,6 +1,15 @@
 {
   "wallpapers": [
     {
+      "id": "mvcjem1t",
+      "title": "Kakashi",
+      "category": "Cyberpunk",
+      "quality": "4K",
+      "description": "",
+      "image": "assets/wallpapers/mvcjem1t-kakashi.jpg",
+      "thumb": "assets/wallpapers/mvcjem1t-kakashi-thumb.jpg"
+    },
+    {
       "id": "mvcjd3uh",
       "title": "Sazuke",
       "category": "Cyberpunk",
