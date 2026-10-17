@@ -1,6 +1,15 @@
 {
   "wallpapers": [
     {
+      "id": "mvcj2ue7",
+      "title": "Itachi",
+      "category": "Anime",
+      "quality": "4K",
+      "description": "",
+      "image": "assets/wallpapers/mvcj2ue7-itachi.jpg",
+      "thumb": "assets/wallpapers/mvcj2ue7-itachi-thumb.jpg"
+    },
+    {
       "id": "mvcj167l",
       "title": "Kakashi",
       "category": "Anime",
