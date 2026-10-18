@@ -1,6 +1,15 @@
 {
   "wallpapers": [
     {
+      "id": "mvdwjk1e",
+      "title": "UP",
+      "category": "Naturaleza",
+      "quality": "4K",
+      "description": "",
+      "image": "assets/wallpapers/mvdwjk1e-up.jpg",
+      "thumb": "assets/wallpapers/mvdwjk1e-up-thumb.jpg"
+    },
+    {
       "id": "mvcjjzq9",
       "title": "El cadáver de la novia",
       "category": "Cyberpunk",
@@ -185,5 +194,6 @@
       "audio": "assets/music/mvbv4mdx-jazz-suave.mp3",
       "cover": "assets/music/mvbv4mdx-jazz-suave-cover.jpg"
     }
-  ]
+  ],
+  "deals": []
 }
