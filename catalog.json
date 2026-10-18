@@ -1,6 +1,15 @@
 {
   "wallpapers": [
     {
+      "id": "mvdwl1jf",
+      "title": "Dany Phantom",
+      "category": "Otros",
+      "quality": "4K",
+      "description": "",
+      "image": "assets/wallpapers/mvdwl1jf-dany-phantom.jpg",
+      "thumb": "assets/wallpapers/mvdwl1jf-dany-phantom-thumb.jpg"
+    },
+    {
       "id": "mvdwjk1e",
       "title": "UP",
       "category": "Naturaleza",
