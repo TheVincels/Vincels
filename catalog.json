@@ -213,5 +213,15 @@
       "cover": "assets/music/mvbv4mdx-jazz-suave-cover.jpg"
     }
   ],
-  "deals": []
+  "deals": [
+    {
+      "id": "mve1n5o0",
+      "title": "Audible 1 mes gratis",
+      "badge": "Audible",
+      "description": "Obten 1 mes de prueba gratuito y recibe un audiolibro Premium y conservalo para siempre.",
+      "code": "",
+      "url": "https://c.trackmytarget.com/?a=m59jfc&i=w3fqz0",
+      "image": "assets/deals/mve1n5o0-audible-1-mes-gratis.jpg"
+    }
+  ]
 }
